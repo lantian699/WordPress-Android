@@ -240,7 +240,7 @@ public class Note extends Syncable {
     }
     public String getIconURL(){
         if (mIconUrl==null)
-            mIconUrl = queryJSON("subject.icon", "");
+            mIconUrl = queryJSON("icon", "");
         return mIconUrl;
     }
 
