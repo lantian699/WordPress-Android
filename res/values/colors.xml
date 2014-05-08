@@ -102,4 +102,7 @@
 
     <!-- tints -->
     <color name="post_detail_icon_tint">#646464</color>
+
+    <!-- notifications -->
+    <color name="notifications_blue_unread">#00aadc</color>
 </resources>
