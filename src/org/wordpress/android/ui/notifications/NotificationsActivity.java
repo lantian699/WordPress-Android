@@ -239,11 +239,12 @@ public class NotificationsActivity extends WPActionBarActivity
         
         mSelectedNoteId = StringUtils.stringToInt(note.getId());
 
+        // TODO
         // mark the note as read if it's unread
-        if (note.isUnread()) {
+        /*if (note.isUnread()) {
             // mark as read which syncs with simperium
             note.markAsRead();
-        }
+        }*/
         FragmentManager fm = getSupportFragmentManager();
 
         // remove the note detail if it's already on there
@@ -252,7 +253,7 @@ public class NotificationsActivity extends WPActionBarActivity
         }
 
         // create detail fragment for this note type
-        NotificationsDetailListFragment detailFragment = new NotificationsDetailListFragment(note);
+        NotificationsDetailListFragment detailFragment = new NotificationsDetailListFragment();
         if (detailFragment == null) {
             AppLog.d(T.NOTIFS, String.format("No fragment found for %s", note.toJSONObject()));
             return;

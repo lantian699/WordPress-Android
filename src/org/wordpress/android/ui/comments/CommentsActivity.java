@@ -19,13 +19,12 @@ import org.wordpress.android.models.BlogPairId;
 import org.wordpress.android.models.Note;
 import org.wordpress.android.ui.WPActionBarActivity;
 import org.wordpress.android.ui.comments.CommentsListFragment.OnCommentSelectedListener;
-import org.wordpress.android.ui.notifications.NotificationFragment;
 import org.wordpress.android.ui.reader.ReaderPostDetailFragment;
 import org.wordpress.android.util.AppLog;
 
 public class CommentsActivity extends WPActionBarActivity
         implements OnCommentSelectedListener,
-                   NotificationFragment.OnPostClickListener,
+                   CommentDetailFragment.OnPostClickListener,
                    CommentActions.OnCommentChangeListener {
     private static final String KEY_HIGHLIGHTED_COMMENT_ID = "highlighted_comment_id";
     private static final String KEY_SELECTED_COMMENT_ID = "selected_comment_id";
