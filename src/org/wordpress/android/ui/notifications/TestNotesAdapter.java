@@ -53,8 +53,6 @@ class TestNotesAdapter extends ArrayAdapter {
             noteViewHolder.txtDetail.setVisibility(View.GONE);
         }
 
-        noteViewHolder.txtDate.setText(note.getTimeSpan());
-
         String avatarUrl = PhotonUtils.fixAvatar(note.getIconURL(), mAvatarSz);
         noteViewHolder.imgAvatar.setImageUrl(avatarUrl, WPNetworkImageView.ImageType.AVATAR);
 
@@ -99,7 +97,6 @@ class TestNotesAdapter extends ArrayAdapter {
         private final TextView txtLabel;
         private final TextView txtDetail;
         private final View unreadIndicator;
-        private final TextView txtDate;
         private final ProgressBar placeholderLoading;
         private final WPNetworkImageView imgAvatar;
         private final ImageView imgNoteIcon;
@@ -108,7 +105,6 @@ class TestNotesAdapter extends ArrayAdapter {
             txtLabel = (TextView) view.findViewById(R.id.note_label);
             txtDetail = (TextView) view.findViewById(R.id.note_detail);
             unreadIndicator = view.findViewById(R.id.unread_indicator);
-            txtDate = (TextView) view.findViewById(R.id.text_date);
             placeholderLoading = (ProgressBar) view.findViewById(R.id.placeholder_loading);
             imgAvatar = (WPNetworkImageView) view.findViewById(R.id.note_avatar);
             imgNoteIcon = (ImageView) view.findViewById(R.id.note_icon);
