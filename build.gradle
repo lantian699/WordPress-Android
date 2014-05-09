@@ -23,6 +23,7 @@ apply plugin: 'android-cq'
 apply plugin: 'crashlytics'
 dependencies {
     compile 'com.crashlytics.android:crashlytics:1.+'
+    compile 'com.android.support:support-v4:19.+'
 }
 
 android {
@@ -160,7 +161,9 @@ android.buildTypes.all { buildType ->
 }
 
 // For app signing
-if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0) {
+if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count {
+    !project.hasProperty(it)
+} == 0) {
     android {
         signingConfigs {
             release {
