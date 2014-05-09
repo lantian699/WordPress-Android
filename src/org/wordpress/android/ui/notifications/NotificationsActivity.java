@@ -201,7 +201,7 @@ public class NotificationsActivity extends WPActionBarActivity
     /**
      * Tries to pick the correct fragment detail type for a given note
      */
-    private Fragment getDetailFragmentForNote(Note note){
+    /*private Fragment getDetailFragmentForNote(Note note){
         if (note == null)
             return null;
 
@@ -227,7 +227,7 @@ public class NotificationsActivity extends WPActionBarActivity
         }
 
         return null;
-    }
+    }*/
 
     /**
      *  Open a note fragment based on the type of note
@@ -252,7 +252,7 @@ public class NotificationsActivity extends WPActionBarActivity
         }
 
         // create detail fragment for this note type
-        Fragment detailFragment = getDetailFragmentForNote(note);
+        NotificationsDetailListFragment detailFragment = new NotificationsDetailListFragment(note);
         if (detailFragment == null) {
             AppLog.d(T.NOTIFS, String.format("No fragment found for %s", note.toJSONObject()));
             return;
