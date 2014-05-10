@@ -3,7 +3,6 @@
  */
 package org.wordpress.android.models;
 
-import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -25,7 +24,6 @@ import org.wordpress.android.util.JSONUtil;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -118,64 +116,12 @@ public class Note extends Syncable {
     private transient String mIconUrl;
     private transient String mSnippet;
 
-    // TODO: add other types
-    private static final Map<String, String> pnType2type = new Hashtable<String, String>() {{
-        put("c", "comment");
-    }};
-
     /**
      * Create a note using JSON from REST API
      */
     public Note(JSONObject noteJSON){
         mNoteJSON = noteJSON;
         preloadContent();
-    }
-
-    /**
-     * Create a placeholder note from a Push Notification payload
-     */
-    public Note(Bundle extras) {
-        JSONObject tmpNoteJSON = new JSONObject();
-        String type = extras.getString("type");
-        String finalType = NOTE_UNKNOWN_TYPE;
-        if (type != null && pnType2type.containsKey(type)) {
-            finalType = pnType2type.get(type);
-        }
-        JSONObject subject = new JSONObject();
-        JSONObject body = new JSONObject();
-        JSONObject html = new JSONObject();
-        JSONArray items = new JSONArray();
-        try {
-            // subject
-            if (finalType.equals(NOTE_COMMENT_TYPE)) {
-                subject.put("text", extras.get("title"));
-            } else {
-                subject.put("text", extras.get("msg"));
-            }
-            subject.put("icon", extras.get("icon"));
-            subject.put("noticon", extras.get("noticon"));
-
-            html.put("html", extras.get("msg"));
-            items.put(html);
-            body.put("items", items);
-
-            // fake timestamp to put it in top of the list
-            String timestamp = extras.getString("note_timestamp");
-            if (timestamp==null || timestamp.equals("")) {
-                timestamp = "" + (System.currentTimeMillis() / 1000);
-            }
-            tmpNoteJSON.put("timestamp", timestamp);
-
-            // root
-            tmpNoteJSON.put("id", extras.get("note_id"));
-            tmpNoteJSON.put("subject", subject);
-            tmpNoteJSON.put("body", body);
-            tmpNoteJSON.put("type", finalType);
-            tmpNoteJSON.put("unread", "1");
-        } catch (JSONException e) {
-            AppLog.e(T.NOTIFS, "Failed to put key in noteJSON", e);
-        }
-        mNoteJSON = tmpNoteJSON;
     }
 
     /**
@@ -314,6 +260,14 @@ public class Note extends Syncable {
         } catch (NumberFormatException e) {
             AppLog.e(T.NOTIFS, "failed to convert timestamp to long", e);
             return "";
+        }
+    }
+
+    public JSONArray getBody() {
+        try {
+            return mNoteJSON.getJSONArray("body");
+        } catch (JSONException e) {
+            return null;
         }
     }
 
