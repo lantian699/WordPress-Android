@@ -1,23 +1,22 @@
 package org.wordpress.android.ui.comments;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.wordpress.android.R;
 import org.wordpress.android.WordPress;
@@ -33,14 +32,13 @@ import org.wordpress.android.ui.comments.CommentActions.ChangedFrom;
 import org.wordpress.android.ui.comments.CommentActions.OnCommentChangeListener;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.NetworkUtils;
-import org.wordpress.android.util.SysUtils;
 import org.wordpress.android.util.ToastUtils;
 import org.xmlrpc.android.ApiHelper;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class CommentsListFragment extends Fragment {
     private boolean mIsUpdatingComments = false;
@@ -394,7 +392,6 @@ public class CommentsListFragment extends Fragment {
      * get latest comments from server, or pass loadMore=true to get comments beyond the
      * existing ones
      */
-    @SuppressLint("NewApi")
     void updateComments(boolean loadMore) {
         if (mIsUpdatingComments) {
             AppLog.w(AppLog.T.COMMENTS, "update comments task already running");
@@ -402,11 +399,7 @@ public class CommentsListFragment extends Fragment {
         }
 
         mUpdateCommentsTask = new UpdateCommentsTask(loadMore);
-        if (SysUtils.canUseExecuteOnExecutor()) {
-            mUpdateCommentsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            mUpdateCommentsTask.execute();
-        }
+        mUpdateCommentsTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /*
@@ -581,7 +574,7 @@ public class CommentsListFragment extends Fragment {
 
     private final class ActionModeCallback implements ActionMode.Callback {
         @Override
-        public boolean onCreateActionMode(ActionMode actionMode, com.actionbarsherlock.view.Menu menu) {
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             mActionMode = actionMode;
             MenuInflater inflater = actionMode.getMenuInflater();
             inflater.inflate(R.menu.menu_comments_cab, menu);
@@ -589,7 +582,7 @@ public class CommentsListFragment extends Fragment {
             return true;
         }
 
-        private void setItemEnabled(com.actionbarsherlock.view.Menu menu, int menuId, boolean isEnabled) {
+        private void setItemEnabled(Menu menu, int menuId, boolean isEnabled) {
             final MenuItem item = menu.findItem(menuId);
             if (item == null || item.isEnabled() == isEnabled)
                 return;
@@ -603,7 +596,7 @@ public class CommentsListFragment extends Fragment {
         }
 
         @Override
-        public boolean onPrepareActionMode(ActionMode actionMode, com.actionbarsherlock.view.Menu menu) {
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
             final CommentList selectedComments = getCommentAdapter().getSelectedComments();
 
             boolean hasSelection = (selectedComments.size() > 0);
@@ -621,7 +614,7 @@ public class CommentsListFragment extends Fragment {
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode actionMode, com.actionbarsherlock.view.MenuItem menuItem) {
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             int numSelected = getSelectedCommentCount();
             if (numSelected == 0)
                 return false;
@@ -651,5 +644,17 @@ public class CommentsListFragment extends Fragment {
             mPullToRefreshHelper.setEnabled(true);
             mActionMode = null;
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mPullToRefreshHelper.registerReceiver(getActivity());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPullToRefreshHelper.unregisterReceiver(getActivity());
     }
 }

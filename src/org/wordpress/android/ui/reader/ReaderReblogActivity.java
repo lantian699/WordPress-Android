@@ -1,11 +1,10 @@
 package org.wordpress.android.ui.reader;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +23,6 @@ import org.wordpress.android.ui.reader.actions.ReaderActions;
 import org.wordpress.android.ui.reader.actions.ReaderPostActions;
 import org.wordpress.android.ui.reader.adapters.ReaderReblogAdapter;
 import org.wordpress.android.util.EditTextUtils;
-import org.wordpress.android.util.SysUtils;
 import org.wordpress.android.util.ToastUtils;
 import org.wordpress.android.util.stats.AnalyticsTracker;
 
@@ -35,7 +33,7 @@ import org.wordpress.android.util.stats.AnalyticsTracker;
  * in the manifest to prevent re-creation when the device is rotated - important since we
  * don't want the activity re-created while the reblog is being submitted
  */
-public class ReaderReblogActivity extends FragmentActivity {
+public class ReaderReblogActivity extends Activity {
     static final String ARG_BLOG_ID = "blog_id";
     static final String ARG_POST_ID = "post_id";
 
@@ -103,13 +101,8 @@ public class ReaderReblogActivity extends FragmentActivity {
         overridePendingTransition(0, 0);
     }
 
-    @SuppressLint("NewApi")
     private void loadPost() {
-        if (SysUtils.canUseExecuteOnExecutor()) {
-            new LoadPostTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            new LoadPostTask().execute();
-        }
+        new LoadPostTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /*

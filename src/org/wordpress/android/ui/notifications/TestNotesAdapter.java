@@ -2,12 +2,12 @@ package org.wordpress.android.ui.notifications;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,6 +15,7 @@ import org.wordpress.android.R;
 import org.wordpress.android.models.Note;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.PhotonUtils;
+import org.wordpress.android.widgets.NoticonTextView;
 import org.wordpress.android.widgets.WPNetworkImageView;
 
 import java.util.ArrayList;
@@ -56,7 +57,12 @@ class TestNotesAdapter extends ArrayAdapter {
         String avatarUrl = PhotonUtils.fixAvatar(note.getIconURL(), mAvatarSz);
         noteViewHolder.imgAvatar.setImageUrl(avatarUrl, WPNetworkImageView.ImageType.AVATAR);
 
-        noteViewHolder.imgNoteIcon.setImageDrawable(getDrawableForType(note.getType()));
+        if (!TextUtils.isEmpty(note.getNoticonCharacter())) {
+            noteViewHolder.noteIcon.setText(note.getNoticonCharacter());
+            noteViewHolder.noteIcon.setVisibility(View.VISIBLE);
+        } else {
+            noteViewHolder.noteIcon.setVisibility(View.GONE);
+        }
 
         noteViewHolder.unreadIndicator.setVisibility(note.isUnread() ? View.VISIBLE : View.INVISIBLE);
         noteViewHolder.placeholderLoading.setVisibility(note.isPlaceholder() ? View.VISIBLE : View.GONE);
@@ -99,7 +105,7 @@ class TestNotesAdapter extends ArrayAdapter {
         private final View unreadIndicator;
         private final ProgressBar placeholderLoading;
         private final WPNetworkImageView imgAvatar;
-        private final ImageView imgNoteIcon;
+        private final NoticonTextView noteIcon;
 
         NoteViewHolder(View view) {
             txtLabel = (TextView) view.findViewById(R.id.note_label);
@@ -107,7 +113,7 @@ class TestNotesAdapter extends ArrayAdapter {
             unreadIndicator = view.findViewById(R.id.unread_indicator);
             placeholderLoading = (ProgressBar) view.findViewById(R.id.placeholder_loading);
             imgAvatar = (WPNetworkImageView) view.findViewById(R.id.note_avatar);
-            imgNoteIcon = (ImageView) view.findViewById(R.id.note_icon);
+            noteIcon = (NoticonTextView) view.findViewById(R.id.note_icon);
         }
     }
 }

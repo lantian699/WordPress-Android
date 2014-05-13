@@ -1,6 +1,6 @@
 package org.wordpress.android.ui.prefs;
 
-import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -14,10 +14,12 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -27,9 +29,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -64,7 +63,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("deprecation")
-public class PreferencesActivity extends SherlockPreferenceActivity {
+public class PreferencesActivity extends PreferenceActivity {
     private ArrayList<StringMap<Double>> mMutedBlogsList;
     private Map<String, Object> mNotificationSettings;
     private SharedPreferences mSettings;
@@ -86,9 +85,10 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
         overridePendingTransition(R.anim.slide_up, R.anim.do_nothing);
 
         setTitle(getResources().getText(R.string.settings));
-
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         addPreferencesFromResource(R.xml.preferences);
 
@@ -235,11 +235,7 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
     }
 
     /** Sets up the action bar for an {@link PreferenceScreen} */
-    @SuppressLint("NewApi")
     public static void initializeActionBar(PreferenceScreen preferenceScreen) {
-        if (android.os.Build.VERSION.SDK_INT < 11)
-            return;
-
         final Dialog dialog = preferenceScreen.getDialog();
 
         if (dialog != null) {
@@ -358,7 +354,6 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
      * Listens for changes to notification blogs settings
      */
     private OnPreferenceChangeListener mMuteBlogChangeListener = new OnPreferenceChangeListener() {
-
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (preference instanceof CheckBoxPreference) {
@@ -382,7 +377,6 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
      * Listens for changes to notification enabled toggle
      */
     private OnPreferenceChangeListener mNotificationsEnabledChangeListener = new OnPreferenceChangeListener() {
-
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             if (preference instanceof CheckBoxPreference) {
@@ -646,7 +640,6 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
     }
 
     private OnPreferenceClickListener signInPreferenceClickListener = new OnPreferenceClickListener() {
-
         @Override
         public boolean onPreferenceClick(Preference preference) {
             Intent i = new Intent(PreferencesActivity.this, WelcomeActivity.class);
@@ -673,7 +666,6 @@ public class PreferencesActivity extends SherlockPreferenceActivity {
     };
 
     private OnPreferenceClickListener signOutPreferenceClickListener = new OnPreferenceClickListener() {
-
         @Override
         public boolean onPreferenceClick(Preference preference) {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PreferencesActivity.this);

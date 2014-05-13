@@ -1,5 +1,6 @@
 package org.wordpress.android.ui.prefs;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +17,6 @@ import org.wordpress.android.R;
 import org.wordpress.android.WordPress;
 
 public class AboutActivity extends Activity implements OnClickListener {
-
     private static final String URL_TOS = "http://en.wordpress.com/tos";
     private static final String URL_AUTOMATTIC = "http://automattic.com";
     private static final String URL_PRIVACY_POLICY = "/privacy";
@@ -26,8 +26,9 @@ public class AboutActivity extends Activity implements OnClickListener {
         super.onCreate(icicle);
         setContentView(R.layout.about);
 
-        if (android.os.Build.VERSION.SDK_INT >= 11) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         TextView version = (TextView) findViewById(R.id.about_version);
@@ -57,11 +58,10 @@ public class AboutActivity extends Activity implements OnClickListener {
         AppLockManager.getInstance().setExtendedTimeout();
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;

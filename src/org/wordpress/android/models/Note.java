@@ -40,8 +40,7 @@ public class Note extends Syncable {
             public List<Index> index(Note note) {
                 List<Index> indexes = new ArrayList<Index>(1);
                 try {
-                    long timestamp = note.getTimestamp();
-                    indexes.add(new Index(TIMESTAMP_INDEX, timestamp));
+                    indexes.add(new Index(TIMESTAMP_INDEX, note.getTimestamp()));
                 } catch (NumberFormatException e) {
                     // note will not have an indexed timestamp so it will
                     // show up at the end of a query sorting by timestamp
@@ -117,9 +116,9 @@ public class Note extends Syncable {
     private transient String mSnippet;
 
     /**
-     * Create a note using JSON from REST API
+     * Create a note using JSON from Simperium
      */
-    public Note(JSONObject noteJSON){
+    public Note(JSONObject noteJSON) {
         mNoteJSON = noteJSON;
         preloadContent();
     }
@@ -246,7 +245,10 @@ public class Note extends Syncable {
      * Get the timestamp provided by the API for the note - cached for performance
      */
     public long getTimestamp() {
+        if (mTimestamp == 0) {
             mTimestamp = queryJSON("timestamp", 0);
+        }
+
         return mTimestamp;
     }
 
@@ -269,6 +271,11 @@ public class Note extends Syncable {
         } catch (JSONException e) {
             return null;
         }
+    }
+
+    // returns character code for notification font
+    public String getNoticonCharacter() {
+        return queryJSON("noticon", "");
     }
 
     String getTemplate(){
@@ -445,53 +452,4 @@ public class Note extends Syncable {
             return mRestPath;
         }
     }
-
-    /*
-     * returns subject as spanned html with user names and quoted strings highlighted
-     */
-    /*private transient Spanned mFormattedSubject;
-    private static final String TAG_START = "</font><font color='#222222'>";
-    private static final String TAG_END = "</font><font color='#666666'>";
-    public Spanned getFormattedSubject() {
-        if (mFormattedSubject == null) {
-            StringBuilder sb = new StringBuilder(getSubject());
-
-            // highlight user names - note we skip the first item in replies because it's the
-            // actual header text (ex: "In reply to your comment") rather than a user name
-            if (isMultiLineListTemplate() || isSingleLineListTemplate()) {
-                JSONArray items = queryJSON("body.items", new JSONArray());
-                int startIndex = (isCommentType() ? 1 : 0);
-                if (items.length() > startIndex) {
-                    for (int i = startIndex; i < items.length(); i++) {
-                        try {
-                            String name = JSONUtil.getString((JSONObject) items.get(i), "header_text");
-                            if (!TextUtils.isEmpty(name)) {
-                                // note that we only replace the first instance to avoid false matches
-                                int index = sb.indexOf(name);
-                                if (index > -1) {
-                                    sb.replace(index, index + name.length(), TAG_START + name + TAG_END);
-                                }
-                            }
-                        } catch (JSONException e) {
-                            // nop
-                        }
-                    }
-                }
-            }
-
-            // highlight quoted strings
-            int startQuote = sb.indexOf("\"");
-            while (startQuote > -1) {
-                int endQuote = sb.indexOf("\"", startQuote + 1);
-                if (endQuote == -1)
-                    break;
-                String quoted = sb.substring(startQuote, endQuote + 1);
-                sb.replace(startQuote, endQuote + 1, TAG_START + quoted + TAG_END);
-                startQuote = sb.indexOf("\"", endQuote + TAG_START.length() + TAG_END.length());
-            }
-
-            mFormattedSubject = Html.fromHtml(sb.toString());
-        }
-        return mFormattedSubject;
-    }*/
 }

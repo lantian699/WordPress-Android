@@ -11,7 +11,6 @@ import org.wordpress.android.R;
 import java.util.Hashtable;
 
 public class TypefaceCache {
-
     protected static final int VARIATION_NORMAL = 0;
     protected static final int VARIATION_LIGHT = 1;
 
@@ -41,6 +40,18 @@ public class TypefaceCache {
                 break;
         }
 
+        if (!mTypefaceCache.containsKey(typefaceName)) {
+            Typeface typeface = Typeface.createFromAsset(context.getApplicationContext().getAssets(), "fonts/"
+                    + typefaceName);
+            if (typeface != null) {
+                mTypefaceCache.put(typefaceName, typeface);
+            }
+        }
+
+        return getTypefaceForTypefaceName(context, typefaceName);
+    }
+
+    protected static Typeface getTypefaceForTypefaceName(Context context, String typefaceName) {
         if (!mTypefaceCache.containsKey(typefaceName)) {
             Typeface typeface = Typeface.createFromAsset(context.getApplicationContext().getAssets(), "fonts/"
                     + typefaceName);

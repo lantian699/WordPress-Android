@@ -15,20 +15,39 @@
         android:layout_centerVertical="true"
         android:background="@drawable/notifications_unread_indicator" />
 
+    <FrameLayout
+        android:id="@+id/avatar_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_toRightOf="@+id/unread_indicator">
+
     <org.wordpress.android.widgets.WPNetworkImageView
         android:id="@+id/note_avatar"
         android:layout_width="@dimen/note_avatar_sz"
         android:layout_height="@dimen/note_avatar_sz"
-        android:layout_marginLeft="13dp"
         android:layout_marginRight="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_toRightOf="@+id/unread_indicator" />
+        android:layout_marginTop="@dimen/margin_small" />
+
+    <org.wordpress.android.widgets.NoticonTextView
+        android:id="@+id/note_icon"
+        android:layout_width="@dimen/note_icon_sz"
+        android:layout_height="@dimen/note_icon_sz"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="42dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:text="\uf814"
+        android:background="@drawable/notifications_unread_indicator"/>
+
+    </FrameLayout>
 
     <org.wordpress.android.widgets.WPTextView
         android:id="@+id/note_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/note_avatar"
+        android:layout_toRightOf="@+id/avatar_wrapper"
         android:textColor="@color/notifications_blue_dark"
         android:textSize="@dimen/text_sz_medium" />
 
@@ -45,16 +64,6 @@
         android:textColor="@color/grey_medium"
         android:textSize="@dimen/text_sz_medium"
         android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/note_icon"
-        android:layout_width="@dimen/note_icon_sz"
-        android:layout_height="@dimen/note_icon_sz"
-        android:layout_above="@id/note_avatar"
-        android:layout_alignBottom="@id/note_avatar"
-        android:layout_alignRight="@id/note_avatar"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp" />
 
     <ProgressBar
         android:id="@+id/placeholder_loading"

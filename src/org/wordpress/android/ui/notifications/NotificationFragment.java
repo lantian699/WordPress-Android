@@ -10,7 +10,6 @@ package org.wordpress.android.ui.notifications;
 import org.wordpress.android.models.Note;
 
 public interface NotificationFragment {
-
     public static interface OnPostClickListener {
         public void onPostClicked(Note note, int remoteBlogId, int postId);
     }
