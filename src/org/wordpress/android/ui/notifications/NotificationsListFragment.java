@@ -47,8 +47,8 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
     }
 
     @Override
-    public void onActivityCreated(Bundle bundle) {
-        super.onActivityCreated(bundle);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // setup the initial notes adapter, starts listening to the bucket
         mBucket = SimperiumUtils.getNotesBucket();
