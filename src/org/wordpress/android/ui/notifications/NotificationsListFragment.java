@@ -52,7 +52,7 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
 
         // setup the initial notes adapter, starts listening to the bucket
         mBucket = SimperiumUtils.getNotesBucket();
-
+        
         try {
             JSONArray notesArray = new JSONArray(loadJSONFromAsset());
             List<Note> notesArrayList = new ArrayList<Note>();
@@ -111,7 +111,7 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
     public void onListItemClick(ListView l, View v, int position, long id) {
         Note note = (Note)mNotesAdapter.getItem(position);
         l.setItemChecked(position, true);
-        if (note != null && !note.isPlaceholder() && mNoteClickListener != null) {
+        if (note != null && mNoteClickListener != null) {
             mNoteClickListener.onClickNote(note);
         }
     }

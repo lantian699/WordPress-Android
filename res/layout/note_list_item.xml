@@ -65,13 +65,4 @@
         android:textSize="@dimen/text_sz_medium"
         android:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/placeholder_loading"
-        android:layout_width="@dimen/note_icon_sz"
-        android:layout_height="@dimen/note_icon_sz"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentRight="true"
-        android:visibility="gone" />
-
 </RelativeLayout>

@@ -3,6 +3,10 @@
  */
 package org.wordpress.android.networking;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
@@ -17,11 +21,6 @@ import com.wordpress.rest.RestRequest.Listener;
 import org.json.JSONObject;
 import org.wordpress.android.WordPress;
 import org.wordpress.android.models.Note;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 public class RestClientUtils {
     private static final String NOTIFICATION_FIELDS = "id,type,unread,body,subject,timestamp,meta";
@@ -171,15 +170,6 @@ public class RestClientUtils {
         String path = String.format("sites/%s/themes/mine", siteId);
         get(path, listener, errorListener);
     }
-
-    /**
-     * Get a site's stats summary
-     */
-    public void getStatsSummary(String siteId, Listener listener, ErrorListener errorListener) {
-        String path = String.format("sites/%s/stats", siteId);
-        get(path, listener, errorListener);
-    }
-
 
     /**
      * Make GET request

@@ -634,7 +634,9 @@ public abstract class WPActionBarActivity extends Activity {
                     if (blogNames.length >= 1) {
                         setupCurrentBlog();
                     }
-                    onBlogChanged();
+                    if (data != null && data.getBooleanExtra(PreferencesActivity.CURRENT_BLOG_CHANGED, true)) {
+                        onBlogChanged();
+                    }
                     WordPress.registerForCloudMessaging(this);
                 }
 
@@ -674,6 +676,8 @@ public abstract class WPActionBarActivity extends Activity {
             if (mMenuDrawer != null) {
                 mMenuDrawer.toggleMenu();
                 return true;
+            } else {
+                onBackPressed();
             }
         } else if (item.getItemId() == R.id.menu_settings) {
             Intent i = new Intent(this, PreferencesActivity.class);
