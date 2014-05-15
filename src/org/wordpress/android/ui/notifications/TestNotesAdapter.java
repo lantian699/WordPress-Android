@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.wordpress.android.R;
@@ -65,7 +64,6 @@ class TestNotesAdapter extends ArrayAdapter {
         }
 
         noteViewHolder.unreadIndicator.setVisibility(note.isUnread() ? View.VISIBLE : View.INVISIBLE);
-        noteViewHolder.placeholderLoading.setVisibility(note.isPlaceholder() ? View.VISIBLE : View.GONE);
 
         return convertView;
     }
@@ -103,7 +101,6 @@ class TestNotesAdapter extends ArrayAdapter {
         private final TextView txtLabel;
         private final TextView txtDetail;
         private final View unreadIndicator;
-        private final ProgressBar placeholderLoading;
         private final WPNetworkImageView imgAvatar;
         private final NoticonTextView noteIcon;
 
@@ -111,7 +108,6 @@ class TestNotesAdapter extends ArrayAdapter {
             txtLabel = (TextView) view.findViewById(R.id.note_label);
             txtDetail = (TextView) view.findViewById(R.id.note_detail);
             unreadIndicator = view.findViewById(R.id.unread_indicator);
-            placeholderLoading = (ProgressBar) view.findViewById(R.id.placeholder_loading);
             imgAvatar = (WPNetworkImageView) view.findViewById(R.id.note_avatar);
             noteIcon = (NoticonTextView) view.findViewById(R.id.note_icon);
         }

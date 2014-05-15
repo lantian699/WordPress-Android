@@ -52,7 +52,7 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
 
         // setup the initial notes adapter, starts listening to the bucket
         mBucket = SimperiumUtils.getNotesBucket();
-        
+
         try {
             JSONArray notesArray = new JSONArray(loadJSONFromAsset());
             List<Note> notesArrayList = new ArrayList<Note>();
