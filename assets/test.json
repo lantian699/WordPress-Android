@@ -12,8 +12,16 @@
 		"urls": [
 			{
 				"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/",
-				"indices": [ 59, 76 ]
-			}
+				"indices": [ 59, 76 ],
+				"type": "post",
+				"id" : 678
+			},
+			{
+                "url": "http://mdawaffe.com",
+                "indices": [ 0, 10 ],
+                "type": "author",
+                "id" : 678
+            }
 		]
 	},
 	"body": [
@@ -22,11 +30,15 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/",
-					"indices": [ 4, 19 ]
+					"indices": [ 4, 19 ],
+					"type" : "post",
+					"id" : 678
 				},
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/#comment-71",
-					"indices": [ 44, 53 ]
+					"indices": [ 44, 53 ],
+					"type" : "comment",
+					"id" : 17
 				}
 			]
 		},
@@ -70,7 +82,9 @@
 		"urls": [
 			{
 				"url": "http://zvwmbx.wordpress.com",
-				"indices": [ 39, 46 ]
+				"indices": [ 39, 46 ],
+				"type" : "site",
+				"id" : 459659
 			}
 		]
 	},
@@ -83,7 +97,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com",
-					"indices": [ 100, 106 ]
+					"indices": [ 100, 106 ],
+					"type" : "site",
+					"id" : 459659
 				}
 			]
 		},
@@ -200,7 +216,9 @@
 		"urls": [
 			{
 				"url": "http://zvwmbx.wordpress.com",
-				"indices": [ 27, 33 ]
+				"indices": [ 27, 33 ],
+				"type" : "site",
+				"id" : 459659
 			}
 		]
 	},
@@ -210,7 +228,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com",
-					"indices": [ 44, 50 ]
+					"indices": [ 44, 50 ],
+					"type" : "site",
+					"id": 459659
 				}
 			]
 		},
@@ -253,7 +273,9 @@
 			"urls": [
 				{
 					"url": "http://zvmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 19, 28 ]
+					"indices": [ 19, 28 ],
+					"type": "post",
+					"id" : 676
 				}
 			]
 		},
@@ -332,8 +354,8 @@
 			"text": "Fred Cheng",
 			"urls": [
 				{
-				"url": "http://fredcheng.org",
-				"indices": [ 0, 10 ]
+					"url": "http://fredcheng.org",
+					"indices": [ 0, 10 ]
 				}
 			],
 			"media": [
@@ -360,7 +382,7 @@
 			"urls": [
 				{
 					"url": "http://mdawaffe.wordpress.com",
-				"indices": [ 0, 21 ]
+					"indices": [ 0, 21 ]
 				}
 			],
 			"media": [
@@ -433,7 +455,9 @@
 		"urls": [
 			{
 				"url": "http://zvwmbx.wordpress.com/",
-				"indices": [ 28, 34 ]
+				"indices": [ 28, 34 ],
+				"type": "site",
+				"id": 459659
 			}
 		]
 	},
@@ -443,7 +467,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/",
-					"indices": [ 44, 50 ]
+					"indices": [ 44, 50 ],
+					"type": "site",
+					"id": 459659
 				}
 			]
 		},
@@ -524,7 +550,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 41, 63 ]
+					"indices": [ 41, 63 ],
+					"type": "post",
+					"id": 676
 				}
 			]
 		}
@@ -640,7 +668,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 23, 38 ]
+					"indices": [ 23, 38 ],
+					"type": "post",
+					"id": 676
 				}
 			]
 		},
@@ -696,7 +726,9 @@
 		"urls": [
 			{
 				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-				"indices": [ 39, 54 ]
+				"indices": [ 39, 54 ],
+				"type": "post",
+				"id": 676
 			}
 		]
 	},
@@ -706,7 +738,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 0, 15 ]
+					"indices": [ 0, 15 ],
+					"type": "post",
+					"id": 676
 				}
 			]
 		},
@@ -715,7 +749,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx2.wordpress.com/2014/03/07/13/",
-					"indices": [ 0, 7 ]
+					"indices": [ 0, 7 ],
+					"type": "post",
+					"id": 13
 				}
 			],
 			"media": [
@@ -771,7 +807,9 @@
 		"urls": [
 			{
 				"url":"http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post",
-				"indices": [ 51, 65 ]
+				"indices": [ 51, 65 ],
+				"type": "post",
+				"id": 676
 			}
 		]
 	},
@@ -781,7 +819,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
-					"indices": [ 12, 24 ]
+					"indices": [ 12, 24 ],
+					"type": "comment",
+					"id": 64
 				}
 			]
 		},
@@ -881,7 +921,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
-					"indices": [ 12, 24 ]
+					"indices": [ 12, 24 ],
+					"type": "comment",
+					"id": 64
 				}
 			]
 		},
@@ -909,7 +951,7 @@
 					"type": "image",
 					"url": "https://1.gravatar.com/avatar/4d346581a3340e32cf93703c9ce46bd4?s=256&d=identicon&r=G",
 					"indices": [ 0, 0 ]
-
+			
 				}
 			],
 			"meta": {
@@ -974,7 +1016,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 0, 15 ]
+					"indices": [ 0, 15 ],
+					"type": "post",
+					"id": 676
 				}
 			]
 		},
@@ -983,7 +1027,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
-					"indices": [ 18, 30 ]
+					"indices": [ 18, 30 ],
+					"type": "comment",
+					"id": 64
 				}
 			]
 		},
@@ -1060,7 +1106,9 @@
 		"urls": [
 			{
 				"url": "http://zvwmbx.wordpress.com/",
-				"indices": [ 43, 49 ]
+				"indices": [ 43, 49 ],
+				"type": "site",
+				"id": 459659
 			}
 		]
 	},
@@ -1070,7 +1118,9 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/",
-					"indices": [ 25, 34 ]
+					"indices": [ 25, 34 ],
+					"type": "site",
+					"id": 459659
 				}
 			]
 
@@ -1144,11 +1194,15 @@
 			"urls": [
 				{
 					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 32, 42 ]
+					"indices": [ 32, 42 ],
+					"type": "post",
+					"id": 676
 				},
 				{
 					"url": "http://zvwmbx.wordpress.com",
-					"indices": [ 46, 51 ]
+					"indices": [ 46, 51 ],
+					"type": "site",
+					"id": 459659
 				}
 			]
 		},
@@ -1221,7 +1275,9 @@
 		"urls": [
 			{
 				"url": "http://lufthosen.wordpress.com",
-				"indices": [ 28,37 ]
+				"indices": [ 28,37 ],
+				"type": "site",
+				"id": 400025
 			}
 		]
 	},
@@ -1231,7 +1287,9 @@
 			"urls": [
 				{
 					"url": "http://lufthosen.wordpress.com/",
-					"indices": [ 44, 53 ]
+					"indices": [ 44, 53 ],
+					"type": "site",
+					"id": 400025
 				}
 			]
 		},

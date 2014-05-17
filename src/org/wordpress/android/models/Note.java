@@ -3,10 +3,12 @@
  */
 package org.wordpress.android.models;
 
-import android.text.Html;
+import android.graphics.Typeface;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 
 import com.simperium.client.BucketSchema;
@@ -18,7 +20,6 @@ import org.json.JSONObject;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.AppLog.T;
 import org.wordpress.android.util.DateTimeUtils;
-import org.wordpress.android.util.HtmlUtils;
 import org.wordpress.android.util.JSONUtil;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class Note extends Syncable {
     private long mTimestamp;
 
     private transient String mCommentPreview;
-    private transient String mSubject;
+    private Spannable mSubject;
     private transient String mIconUrl;
     private transient String mSnippet;
     private transient String mNoteType;
@@ -176,15 +177,47 @@ public class Note extends Syncable {
         return isType(NOTE_MATCHER_TYPE);
     }
 
-    public String getSubject() {
+    public Spannable getSubject() {
         if (mSubject == null) {
-            String text = queryJSON("subject.text", "").trim();
-            if (text.equals("")) {
-                text = queryJSON("subject.html", "");
+            try {
+                JSONObject subject = mNoteJSON.getJSONObject("subject");
+                mSubject = getSpannableText(subject);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            mSubject = Html.fromHtml(text).toString();
+
         }
         return mSubject;
+    }
+
+    private Spannable getSpannableText(JSONObject subject) {
+
+        String text = subject.optString("text", "");
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
+
+        try {
+            JSONArray urlsArray = subject.getJSONArray("urls");
+
+            for (int i=0; i < urlsArray.length(); i++) {
+                JSONObject urlIndex = (JSONObject) urlsArray.get(i);
+                String type = urlIndex.optString("type", "");
+                JSONArray indicesArray = urlIndex.getJSONArray("indices");
+                if (type.equals("post")) {
+                    // bold span
+                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.ITALIC);
+                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                } else if (type.equals("author")) {
+                    // em span
+                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.BOLD);
+                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return spannableStringBuilder;
     }
 
     public String getIconURL() {
@@ -376,7 +409,7 @@ public class Note extends Syncable {
             return;
         }
 
-        if (isCommentType()) {
+        /*if (isCommentType()) {
             // pre-load the comment HTML for being displayed. Cleans up emoticons.
             mComment = HtmlUtils.fromHtml(getCommentText());
             // pre-load the preview text
@@ -389,7 +422,7 @@ public class Note extends Syncable {
         getType();
 
         // pre-load site/post/comment IDs
-        preloadMetaIds();
+        preloadMetaIds();*/
     }
 
     /*

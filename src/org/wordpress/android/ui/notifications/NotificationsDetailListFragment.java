@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import org.wordpress.android.R;
 import org.wordpress.android.WordPress;
 import org.wordpress.android.models.Note;
+import org.wordpress.android.widgets.WPTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,14 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
         list.setDivider(getResources().getDrawable(R.drawable.list_divider));
         list.setDividerHeight(1);
         list.setHeaderDividersEnabled(false);
+
+        // Add header if we have a subject
+        if (mNote.getSubject() != null) {
+            WPTextView textView = new WPTextView(getActivity());
+            textView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
+            textView.setText(mNote.getSubject());
+            getListView().addHeaderView(textView);
+        }
 
         JSONArray bodyArray = mNote.getBody();
 
