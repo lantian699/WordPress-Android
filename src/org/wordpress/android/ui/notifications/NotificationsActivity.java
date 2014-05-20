@@ -62,7 +62,7 @@ public class NotificationsActivity extends WPActionBarActivity
             AnalyticsTracker.track(AnalyticsTracker.Stat.NOTIFICATIONS_ACCESSED);
         }
 
-        createMenuDrawer(R.layout.notifications);
+        createMenuDrawer(R.layout.notifications_activity);
         View fragmentContainer = findViewById(R.id.layout_fragment_container);
         mDualPane = fragmentContainer != null && getString(R.string.dual_pane_mode).equals(fragmentContainer.getTag());
 

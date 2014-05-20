@@ -38,7 +38,7 @@ class TestNotesAdapter extends ArrayAdapter {
         Note note = mNotesList.get(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.note_list_item, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.notifications_list_item, parent, false);
             NoteViewHolder holder = new NoteViewHolder(convertView);
             convertView.setTag(holder);
         }

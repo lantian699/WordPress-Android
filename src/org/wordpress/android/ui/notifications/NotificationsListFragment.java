@@ -61,7 +61,7 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
                 notesArrayList.add(note);
             }
 
-            mNotesAdapter = new TestNotesAdapter(getActivity(), R.layout.note_list_item, notesArrayList);
+            mNotesAdapter = new TestNotesAdapter(getActivity(), R.layout.notifications_list_item, notesArrayList);
 
             ListView listView = getListView();
             listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

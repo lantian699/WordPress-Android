@@ -1,7 +1,7 @@
 package org.wordpress.android.ui.notifications;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+import android.text.Spannable;
+
 import org.json.JSONObject;
 import org.wordpress.android.R;
 import org.wordpress.android.util.JSONUtil;
@@ -48,34 +48,12 @@ public class NoteBlock {
         return mBlockType;
     }
 
-    public String getNoteText() {
-        if (mNoteData.has("text")) {
-            try {
-                return mNoteData.getString("text");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return "";
+    public Spannable getNoteText() {
+        return NotificationUtils.getSpannableTextFromIndeces(mNoteData);
     }
 
     public String getNoteImageUrl() {
-        if (mNoteData.has("media")) {
-            try {
-                JSONArray mediaItems = mNoteData.getJSONArray("media");
-                for (int i=0; i < mediaItems.length(); i++) {
-                    JSONObject mediaItem = mediaItems.getJSONObject(i);
-                    if (JSONUtil.queryJSON(mediaItem, "type", "").equals("image")) {
-                        return JSONUtil.queryJSON(mediaItem, "url", "");
-                    }
-                }
-            } catch (JSONException e) {
-                return "";
-            }
-        }
-
-        return "";
+        return JSONUtil.queryJSON(mNoteData, "media[0].url", "");
     }
 
     public int getLayoutResourceId() {

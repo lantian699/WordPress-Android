@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import org.wordpress.android.R;
 import org.wordpress.android.WordPress;
 import org.wordpress.android.models.Note;
+import org.wordpress.android.widgets.NoticonTextView;
 import org.wordpress.android.widgets.WPTextView;
 
 import java.util.ArrayList;
@@ -44,20 +45,27 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
         super.onActivityCreated(bundle);
 
         ListView list = getListView();
-        list.setDivider(getResources().getDrawable(R.drawable.list_divider));
-        list.setDividerHeight(1);
+        list.setDivider(null);
+        list.setDividerHeight(0);
         list.setHeaderDividersEnabled(false);
 
         // Add header if we have a subject
-        if (mNote.getSubject() != null) {
-            WPTextView textView = new WPTextView(getActivity());
-            textView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT));
-            textView.setText(mNote.getSubject());
-            getListView().addHeaderView(textView);
+        if (hasActivity() && mNote.getSubject() != null) {
+            LinearLayout headerLayout = (LinearLayout)getActivity().getLayoutInflater().inflate(R.layout.notifications_detail_header, null);
+            if (headerLayout != null) {
+                NoticonTextView noticonTextView = (NoticonTextView)headerLayout.findViewById(R.id.notification_header_icon);
+                noticonTextView.setText(mNote.getNoticonCharacter());
+
+                WPTextView subjectTextView = (WPTextView)headerLayout.findViewById(R.id.notification_header_subject);
+                subjectTextView.setText(mNote.getSubject());
+
+
+                getListView().addHeaderView(headerLayout);
+            }
         }
 
+        // Loop through the body items in this note, and create blocks for each.
         JSONArray bodyArray = mNote.getBody();
-
         if (bodyArray != null && bodyArray.length() > 0) {
             for (int i=0; i < bodyArray.length(); i++) {
                 try {
@@ -136,6 +144,10 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
 
             return convertView;
         }
+    }
+
+    private boolean hasActivity() {
+        return getActivity() != null;
     }
 
 }

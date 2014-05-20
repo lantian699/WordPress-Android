@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/margin_extra_large"
+    android:paddingRight="@dimen/margin_extra_large"
+    android:paddingTop="@dimen/margin_medium"
+    android:paddingBottom="@dimen/margin_medium"
+    android:background="@color/white"
+    android:gravity="center_vertical">
+
+    <org.wordpress.android.widgets.NoticonTextView
+        android:id="@+id/notification_header_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/shape_oval_grey"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="22sp"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:textColor="@color/white" />
+
+    <org.wordpress.android.widgets.WPTextView
+        android:id="@+id/notification_header_subject"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_sz_small"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/notifications_blue" />
+
+</LinearLayout>

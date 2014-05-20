@@ -9,36 +9,42 @@
 	"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/#comment-71",
 	"subject": {
 		"text": "Mike Adams (mdawaffe) matched \"Fuzzies\" with a comment on \"I like fuzzies.\".",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/",
-				"indices": [ 59, 76 ],
-				"type": "post",
-				"id" : 678
+				"type": "user",
+				"id": 91,
+				"url": "http://blogwaffe.com/",
+				"indices": [ 0, 21 ]
 			},
 			{
-                "url": "http://mdawaffe.com",
-                "indices": [ 0, 10 ],
-                "type": "author",
-                "id" : 678
-            }
+				"type": "post",
+				"id" : 678,
+				"indices": [ 59, 76 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/"
+			}
 		]
 	},
 	"body": [
 		{
 			"text": "On \"I like fuzzies.\", Mike Adams (mdawaffe) commented:",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/",
-					"indices": [ 4, 19 ],
 					"type" : "post",
-					"id" : 678
+					"id" : 678,
+					"indices": [ 4, 19 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/"
 				},
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/#comment-71",
-					"indices": [ 44, 53 ],
+					"type": "user",
+					"id": 91,
+					"url": "http://blogwaffe.com/",
+					"indices": [ 22, 43 ]
+				},
+				{
 					"type" : "comment",
-					"id" : 17
+					"id" : 17,
+					"indices": [ 44, 53 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/i-like-fuzzies/#comment-71"
 				}
 			]
 		},
@@ -79,12 +85,12 @@
 	"url": "https://wordpress.com/my-stats/?blog=459659&blog_subscribers",
 	"subject": {
 		"text": "March 7: Your best day for follows on \"zvwmbx\"",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://zvwmbx.wordpress.com",
-				"indices": [ 39, 46 ],
 				"type" : "site",
-				"id" : 459659
+				"id" : 459659,
+				"indices": [ 39, 46 ],
+				"url": "http://zvwmbx.wordpress.com"
 			}
 		]
 	},
@@ -94,12 +100,12 @@
 		},
 		{
 			"text": "On Friday March 7, 2014 you surpassed your previous record of most follows in one day for your blog zvwmbx. Nice!",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com",
-					"indices": [ 100, 106 ],
 					"type" : "site",
-					"id" : 459659
+					"id" : 459659,
+					"indices": [ 100, 106 ],
+					"url": "http://zvwmbx.wordpress.com"
 				}
 			]
 		},
@@ -213,24 +219,24 @@
 	"url": "http://wordpress.com/trophy-case/",
 	"subject": {
 		"text": "You've reached 5 posts on \"zvwmbx\"",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://zvwmbx.wordpress.com",
-				"indices": [ 27, 33 ],
 				"type" : "site",
-				"id" : 459659
+				"id" : 459659,
+				"indices": [ 27, 33 ],
+				"url": "http://zvwmbx.wordpress.com"
 			}
 		]
 	},
 	"body": [
 		{
 			"text": "Congratulations on writing 5 total posts on zvwmbx.",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com",
-					"indices": [ 44, 50 ],
 					"type" : "site",
-					"id": 459659
+					"id": 459659,
+					"indices": [ 44, 50 ],
+					"url": "http://zvwmbx.wordpress.com"
 				}
 			]
 		},
@@ -265,22 +271,40 @@
 	"icon": "https://2.gravatar.com/avatar/5fa7d7397b128ec35b68ff01f2f2bbfd?s=256&d=identicon&r=G",
 	"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
 	"subject": {
-		"text": "Dion, Nick Hamze, and 4 others liked your post \"This is a Post!\""
+		"text": "Dion, Nick Hamze, and 4 others liked your post \"This is a Post!\"",
+		"ids": [
+			{
+				"type": "user",
+				"indices": [ 0, 4 ]
+			},
+			{
+				"type": "user",
+				"id": 10773334,
+				"indices": [ 6, 16 ],
+				"url": "http://blog.nickhamze.com"
+			}
+		]
 	},
 	"body": [
 		{
 			"text": "These people liked your post:",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 19, 28 ],
 					"type": "post",
-					"id" : 676
+					"id" : 676,
+					"indices": [ 19, 28 ],
+					"url": "http://zvmbx.wordpress.com/2014/03/07/this-is-a-post/"
 				}
 			]
 		},
 		{
 			"text": "Dion",
+			"ids": [
+				{
+					"type": "user",
+					"indices": [ 0, 4 ]
+				}
+			],
 			"media": [
 				{
 					"type": "image",
@@ -298,10 +322,12 @@
 		},
 		{
 			"text": "Nick Hamze",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://blog.nickhamze.com",
-					"indices": [ 0, 10 ]
+					"type": "user",
+					"id": 10773334,
+					"indices": [ 0, 10 ],
+					"url": "http://blog.nickhamze.com"
 				}
 			],
 			"media": [
@@ -325,10 +351,12 @@
 		},
 		{
 			"text": "Lance Willett",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://simpledream.net",
-					"indices": [ 0, 13 ]
+					"type": "user",
+					"id": 678,
+					"indices": [ 0, 13 ],
+					"url": "http://simpledream.net"
 				}
 			],
 			"media": [
@@ -352,10 +380,12 @@
 		},
 		{
 			"text": "Fred Cheng",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://fredcheng.org",
-					"indices": [ 0, 10 ]
+					"type": "user",
+					"id": 42994782,
+					"indices": [ 0, 10 ],
+					"url": "http://fredcheng.org"
 				}
 			],
 			"media": [
@@ -379,10 +409,12 @@
 		},
 		{
 			"text": "Mike Adams (mdawaffe)",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://mdawaffe.wordpress.com",
-					"indices": [ 0, 21 ]
+					"type": "user",
+					"id": 91,
+					"indices": [ 0, 21 ],
+					"url": "http://mdawaffe.wordpress.com"
 				}
 			],
 			"media": [
@@ -406,6 +438,13 @@
 		},
 		{
 			"text": "zvwmbx",
+			"ids": [
+				{
+					"type": "user",
+					"id": 467503,
+					"indices": [ 0, 6 ]
+				}
+			],
 			"media": [
 				{
 					"type": "image",
@@ -452,24 +491,24 @@
 	"url": "http://zvwmbx.wordpress.com/",
 	"subject": {
 		"text": "You've received 5 likes on \"zvwmbx\"",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://zvwmbx.wordpress.com/",
-				"indices": [ 28, 34 ],
 				"type": "site",
-				"id": 459659
+				"id": 459659,
+				"indices": [ 28, 34 ],
+				"url": "http://zvwmbx.wordpress.com/"
 			}
 		]
 	},
 	"body": [
 		{
 			"text": "Congratulations on getting 5 total likes on zvwmbx.",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/",
-					"indices": [ 44, 50 ],
 					"type": "site",
-					"id": 459659
+					"id": 459659,
+					"indices": [ 44, 50 ],
+					"url": "http://zvwmbx.wordpress.com/"
 				}
 			]
 		},
@@ -547,12 +586,12 @@
 		},
 		{
 			"text": "You met your posting goal for this week!\nHere's what you posted.",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 41, 63 ],
 					"type": "post",
-					"id": 676
+					"id": 676,
+					"indices": [ 41, 63 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
 				}
 			]
 		}
@@ -660,26 +699,42 @@
 	"icon": "https://1.gravatar.com/avatar/4d346581a3340e32cf93703c9ce46bd4?s=256&d=identicon&r=G",
 	"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
 	"subject": {
-		"text": "Mike Adams (mdawaffe) reblogged your post \"This is a Post!\""
+		"text": "Mike Adams (mdawaffe) reblogged your post \"This is a Post!\"",
+		"ids": [
+			{
+				"type": "user",
+				"id": 91,
+				"indices": [ 0, 21 ],
+				"url": "http://mdawaffe.wordpress.com"
+			},
+			{
+				"type": "post",
+				"id": 676,
+				"indices": [ 23, 58 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
+			}
+		]
 	},
 	"body": [
 		{
 			"text": "This person reblogged \"This is a Post!\":",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 23, 38 ],
 					"type": "post",
-					"id": 676
+					"id": 676,
+					"indices": [ 23, 38 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
 				}
 			]
 		},
 		{
 			"text": "Mike Adams (mdawaffe)",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://mdawaffe.wordpress.com",
-					"indices": [ 0, 21 ]
+					"type": "user",
+					"id": 91,
+					"indices": [ 0, 21 ],
+					"url": "http://mdawaffe.wordpress.com"
 				}
 			],
 			"media": [
@@ -723,35 +778,35 @@
 	"url": "https://zvwmbx.wordpress.com/wp-admin/comment.php?action=approve&c=69",
 	"subject": {
 		"text": "[Pending] zvwmbx2 linked to your post \"This is a Post!\"",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-				"indices": [ 39, 54 ],
 				"type": "post",
-				"id": 676
+				"id": 676,
+				"indices": [ 39, 54 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
 			}
 		]
 	},
 	"body": [
 		{
 			"text": "This is a Post!",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 0, 15 ],
 					"type": "post",
-					"id": 676
+					"id": 676,
+					"indices": [ 0, 15 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
 				}
 			]
 		},
 		{
 			"text": "zvwmbx2",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx2.wordpress.com/2014/03/07/13/",
-					"indices": [ 0, 7 ],
 					"type": "post",
-					"id": 13
+					"id": 13,
+					"indices": [ 0, 7 ],
+					"url": "http://zvwmbx2.wordpress.com/2014/03/07/13/"
 				}
 			],
 			"media": [
@@ -804,24 +859,30 @@
 	"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-68",
 	"subject": {
 		"text": "Mike Adams (mdawaffe) replied to your comment on \"This is a Post!\"",
-		"urls": [
+		"ids": [
 			{
-				"url":"http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post",
-				"indices": [ 51, 65 ],
+				"type": "user",
+				"id": 91,
+				"indices": [ 0, 21 ],
+				"url": "http://mdawaffe.wordpress.com"
+			},
+			{
 				"type": "post",
-				"id": 676
+				"id": 676,
+				"indices": [ 51, 65 ],
+				"url":"http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post"
 			}
 		]
 	},
 	"body": [
 		{
 			"text": "In reply to your comment",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
-					"indices": [ 12, 24 ],
 					"type": "comment",
-					"id": 64
+					"id": 64,
+					"indices": [ 12, 24 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64"
 				}
 			]
 		},
@@ -838,10 +899,12 @@
 		},
 		{
 			"text": "Mike Adams (mdawaffe)",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://mdawaffe.wordpress.com",
-					"indices": [ 0, 21 ]
+					"type": "user",
+					"id": 91,
+					"indices": [ 0, 21 ],
+					"url": "http://mdawaffe.wordpress.com"
 				}
 			],
 			"media": [
@@ -913,17 +976,37 @@
 	"icon": "https://1.gravatar.com/avatar/4d346581a3340e32cf93703c9ce46bd4?s=256&d=identicon&r=G",
 	"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
 	"subject": {
-		"text": "Mike Adams (mdawaffe) matched \"@zvwmbx\" with a comment on \"This is a Post!\""
+		"text": "Mike Adams (mdawaffe) matched \"@zvwmbx\" with a comment on \"This is a Post!\"",
+		"ids": [
+			{
+				"type": "user",
+				"id": 91,
+				"indices": [ 0, 21 ],
+				"url": "http://mdawaffe.wordpress.com"
+			},
+			{
+				"type": "comment",
+				"id": 64,
+				"indices": [ 47, 54 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64"
+			},
+			{
+				"type": "post",
+				"id": 676,
+				"indices": [ 59, 74 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
+			}
+		]
 	},
 	"body": [
 		{
 			"text": "In reply to your comment",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
-					"indices": [ 12, 24 ],
 					"type": "comment",
-					"id": 64
+					"id": 64,
+					"indices": [ 12, 24 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64"
 				}
 			]
 		},
@@ -940,10 +1023,12 @@
 		},
 		{
 			"text": "Mike Adams (mdawaffe)",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://mdawaffe.wordpress.com",
-					"indices": [ 0, 21 ]
+					"type": "user",
+					"id": 91,
+					"indices": [ 0, 21 ],
+					"url": "http://mdawaffe.wordpress.com"
 				}
 			],
 			"media": [
@@ -951,7 +1036,7 @@
 					"type": "image",
 					"url": "https://1.gravatar.com/avatar/4d346581a3340e32cf93703c9ce46bd4?s=256&d=identicon&r=G",
 					"indices": [ 0, 0 ]
-			
+
 				}
 			],
 			"meta": {
@@ -1008,28 +1093,48 @@
 	"icon": "https://1.gravatar.com/avatar/4d346581a3340e32cf93703c9ce46bd4?s=256&d=identicon&r=G",
 	"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
 	"subject": {
-		"text": "Mike Adams (mdawaffe) liked your comment on \"This is a Post!\""
+		"text": "Mike Adams (mdawaffe) liked your comment on \"This is a Post!\"",
+		"ids": [
+			{
+				"type": "user",
+				"id": 91,
+				"indices": [ 0, 21 ],
+				"url": "http://mdawaffe.wordpress.com"
+			},
+			{
+				"type": "comment",
+				"id": 64,
+				"indices": [ 28, 35 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64"
+			},
+			{
+				"type": "post",
+				"id": 676,
+				"indices": [ 45, 60 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
+			}
+		]
 	},
 	"body": [
 		{
 			"text": "This is a Post!",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 0, 15 ],
 					"type": "post",
-					"id": 676
+					"id": 676,
+					"indices": [ 0, 15 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
 				}
 			]
 		},
 		{
 			"text": "This person liked your comment:",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64",
-					"indices": [ 18, 30 ],
 					"type": "comment",
-					"id": 64
+					"id": 64,
+					"indices": [ 18, 30 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/#comment-64"
 				}
 			]
 		},
@@ -1046,10 +1151,12 @@
 		},
 		{
 			"text": "Mike Adams (mdawaffe)",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://mdawaffe.wordpress.com/",
-					"indices": [ 0, 21 ]
+					"type": "user",
+					"id": 91,
+					"indices": [ 0, 21 ],
+					"url": "http://mdawaffe.wordpress.com/"
 				}
 			],
 			"media": [
@@ -1103,34 +1210,42 @@
 	"url": "https://wordpress.com/my-stats/?blog=459659&blog_subscribers",
 	"subject": {
 		"text": "Mike Adams (mdawaffe) followed your blog \"zvwmbx\"",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://zvwmbx.wordpress.com/",
-				"indices": [ 43, 49 ],
+				"type": "user",
+				"id": 91,
+				"indices": [ 0, 21 ],
+				"url": "http://mdawaffe.wordpress.com/"
+			},
+			{
 				"type": "site",
-				"id": 459659
+				"id": 459659,
+				"indices": [ 43, 49 ],
+				"url": "http://zvwmbx.wordpress.com/"
 			}
 		]
 	},
 	"body": [
 		{
 			"text": "This person is following your blog:",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/",
-					"indices": [ 25, 34 ],
 					"type": "site",
-					"id": 459659
+					"id": 459659,
+					"indices": [ 25, 34 ],
+					"url": "http://zvwmbx.wordpress.com/"
 				}
 			]
 
 		},
 		{
 			"text": "Mike Adams (mdawaffe)",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://mdawaffe.wordpress.com/",
-					"indices": [ 0, 21 ]
+					"type": "user",
+					"id": 91,
+					"indices": [ 0, 21 ],
+					"url": "http://mdawaffe.wordpress.com/"
 				}
 			],
 			"media": [
@@ -1186,23 +1301,37 @@
 	"icon": "https://s.wp.com/wp-content/mu-plugins/achievements/post-milestone-1-2x.png",
 	"url": "http://zvwmbx.wordpress.com",
 	"subject": {
-		"text": "You've made your first post on \"zvwmbx\""
+		"text": "You've made your first post on \"zvwmbx\"",
+		"ids": [
+			{
+				"type": "post",
+				"id": 676,
+				"indices": [ 17, 27 ],
+				"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
+			},
+			{
+				"type": "site",
+				"id": 459659,
+				"indices": [ 32, 38 ],
+				"url": "http://zvwmbx.wordpress.com"
+			}
+		]
 	},
 	"body": [
 		{
 			"text": "Congratulations on writing your first post on zvmbx.",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/",
-					"indices": [ 32, 42 ],
 					"type": "post",
-					"id": 676
+					"id": 676,
+					"indices": [ 32, 42 ],
+					"url": "http://zvwmbx.wordpress.com/2014/03/07/this-is-a-post/"
 				},
 				{
-					"url": "http://zvwmbx.wordpress.com",
-					"indices": [ 46, 51 ],
 					"type": "site",
-					"id": 459659
+					"id": 459659,
+					"indices": [ 46, 51 ],
+					"url": "http://zvwmbx.wordpress.com"
 				}
 			]
 		},
@@ -1272,24 +1401,24 @@
 	"url": "http://wordpress.com/trophy-case/",
 	"subject": {
 		"text": "You've received 5 likes on \"Lufthosen\"",
-		"urls": [
+		"ids": [
 			{
-				"url": "http://lufthosen.wordpress.com",
-				"indices": [ 28,37 ],
 				"type": "site",
-				"id": 400025
+				"id": 400025,
+				"indices": [ 28,37 ],
+				"url": "http://lufthosen.wordpress.com"
 			}
 		]
 	},
 	"body": [
 		{
 			"text": "Congratulations on getting 5 total likes on Lufthosen.",
-			"urls": [
+			"ids": [
 				{
-					"url": "http://lufthosen.wordpress.com/",
-					"indices": [ 44, 53 ],
 					"type": "site",
-					"id": 400025
+					"id": 400025,
+					"indices": [ 44, 53 ],
+					"url": "http://lufthosen.wordpress.com/"
 				}
 			]
 		},

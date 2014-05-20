@@ -3,12 +3,10 @@
  */
 package org.wordpress.android.models;
 
-import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.StyleSpan;
 import android.util.Log;
 
 import com.simperium.client.BucketSchema;
@@ -17,6 +15,7 @@ import com.simperium.client.Syncable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.wordpress.android.ui.notifications.NotificationUtils;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.AppLog.T;
 import org.wordpress.android.util.DateTimeUtils;
@@ -181,43 +180,13 @@ public class Note extends Syncable {
         if (mSubject == null) {
             try {
                 JSONObject subject = mNoteJSON.getJSONObject("subject");
-                mSubject = getSpannableText(subject);
+                mSubject = NotificationUtils.getSpannableTextFromIndeces(subject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
         return mSubject;
-    }
-
-    private Spannable getSpannableText(JSONObject subject) {
-
-        String text = subject.optString("text", "");
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-
-        try {
-            JSONArray urlsArray = subject.getJSONArray("urls");
-
-            for (int i=0; i < urlsArray.length(); i++) {
-                JSONObject urlIndex = (JSONObject) urlsArray.get(i);
-                String type = urlIndex.optString("type", "");
-                JSONArray indicesArray = urlIndex.getJSONArray("indices");
-                if (type.equals("post")) {
-                    // bold span
-                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.ITALIC);
-                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                } else if (type.equals("author")) {
-                    // em span
-                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.BOLD);
-                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return spannableStringBuilder;
     }
 
     public String getIconURL() {

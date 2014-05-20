@@ -20,5 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:textSize="@dimen/text_sz_large" />
+        android:textSize="@dimen/text_sz_large"
+        android:textColor="@color/notifications_blue_dark" />
 </LinearLayout>

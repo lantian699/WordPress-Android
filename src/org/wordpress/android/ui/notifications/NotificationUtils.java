@@ -2,9 +2,14 @@ package org.wordpress.android.ui.notifications;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 
 import com.android.volley.VolleyError;
 import com.google.android.gcm.GCMRegistrar;
@@ -12,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
 import com.wordpress.rest.RestRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.wordpress.android.BuildConfig;
@@ -200,5 +206,35 @@ public class NotificationUtils {
             return "org.wordpress.android.debug.build";
 
         return "org.wordpress.android.playstore";
+    }
+
+    public static Spannable getSpannableTextFromIndeces(JSONObject subject) {
+
+        String text = subject.optString("text", "");
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
+
+        try {
+            JSONArray idsArray = subject.getJSONArray("ids");
+
+            for (int i=0; i < idsArray.length(); i++) {
+                JSONObject urlIndex = (JSONObject) idsArray.get(i);
+                String type = urlIndex.optString("type", "");
+                JSONArray indicesArray = urlIndex.getJSONArray("indices");
+                if (type.equals("post") || type.equals("site")) {
+                    // bold span
+                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.ITALIC);
+                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                } else if (type.equals("user")) {
+                    // em span
+                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.BOLD);
+                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return spannableStringBuilder;
     }
 }

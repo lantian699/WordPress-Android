@@ -13,7 +13,7 @@
         android:layout_height="8dp"
         android:layout_marginLeft="-5dp"
         android:layout_centerVertical="true"
-        android:background="@drawable/notifications_unread_indicator" />
+        android:background="@drawable/shape_oval_blue" />
 
     <FrameLayout
         android:id="@+id/avatar_wrapper"
@@ -39,7 +39,7 @@
         android:textSize="14sp"
         android:gravity="center"
         android:text="\uf814"
-        android:background="@drawable/notifications_unread_indicator"/>
+        android:background="@drawable/shape_oval_blue"/>
 
     </FrameLayout>
 
