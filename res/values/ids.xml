@@ -3,4 +3,5 @@
     <item type="id" name="row_post_id" />
     <item type="id" name="drag_handle" />
     <item type="id" name="click_remove" />
+    <item type="id" name="note_block_tag_id" />
 </resources>

@@ -12,16 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.wordpress.android.R;
-import org.wordpress.android.WordPress;
 import org.wordpress.android.models.Note;
+import org.wordpress.android.ui.notifications.blocks.NoteBlock;
+import org.wordpress.android.ui.notifications.blocks.UserActionNoteBlock;
 import org.wordpress.android.widgets.NoticonTextView;
 import org.wordpress.android.widgets.WPTextView;
 
@@ -59,7 +57,6 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
                 WPTextView subjectTextView = (WPTextView)headerLayout.findViewById(R.id.notification_header_subject);
                 subjectTextView.setText(mNote.getSubject());
 
-
                 getListView().addHeaderView(headerLayout);
             }
         }
@@ -70,7 +67,14 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
             for (int i=0; i < bodyArray.length(); i++) {
                 try {
                     JSONObject noteObject = bodyArray.getJSONObject(i);
-                    NoteBlock noteBlock = new NoteBlock(noteObject);
+                    // Determine NoteBlock type and add it to the array
+                    NoteBlock noteBlock;
+                    if (noteObject.has("text") && noteObject.has("media") && noteObject.has("meta")) {
+                        noteBlock = new UserActionNoteBlock(noteObject);
+                    } else {
+                        noteBlock = new NoteBlock(noteObject);
+                    }
+
                     mNoteBlockArray.add(noteBlock);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -107,42 +111,15 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
         public View getView(int position, View convertView, ViewGroup parent) {
             NoteBlock noteBlock = mNoteBlockList.get(position);
 
-            if (convertView == null || convertView.getTag() != noteBlock.getBlockType()) {
+            if (convertView == null || noteBlock.getBlockType() != convertView.getTag(R.id.note_block_tag_id)) {
                 convertView = mLayoutInflater.inflate(noteBlock.getLayoutResourceId(), parent, false);
-
+                convertView.setTag(noteBlock.getViewHolder(convertView));
             }
 
-            if (noteBlock.getBlockType() == NoteBlock.BlockType.TEXT) {
-                NetworkImageView imageView = (NetworkImageView)convertView.findViewById(R.id.note_image);
-                imageView.setVisibility(View.GONE);
+            // Update the block type for this view
+            convertView.setTag(R.id.note_block_tag_id, noteBlock.getBlockType());
 
-                TextView textView = (TextView)convertView.findViewById(R.id.note_text);
-                textView.setText(noteBlock.getNoteText());
-                textView.setVisibility(View.VISIBLE);
-            } else if (noteBlock.getBlockType() == NoteBlock.BlockType.MEDIA) {
-                TextView textView = (TextView)convertView.findViewById(R.id.note_text);
-                textView.setVisibility(View.GONE);
-
-                NetworkImageView imageView = (NetworkImageView)convertView.findViewById(R.id.note_image);
-                imageView.setImageUrl(noteBlock.getNoteImageUrl(), WordPress.imageLoader);
-                imageView.setVisibility(View.VISIBLE);
-            } else if (noteBlock.getBlockType() == NoteBlock.BlockType.MEDIA_WITH_TEXT) {
-                TextView textView = (TextView)convertView.findViewById(R.id.note_text);
-                textView.setText(noteBlock.getNoteText());
-                textView.setVisibility(View.VISIBLE);
-
-                NetworkImageView imageView = (NetworkImageView)convertView.findViewById(R.id.note_image);
-                imageView.setImageUrl(noteBlock.getNoteImageUrl(), WordPress.imageLoader);
-                imageView.setVisibility(View.VISIBLE);
-            } else if (noteBlock.getBlockType() == NoteBlock.BlockType.MEDIA_WITH_TEXT_AND_META) {
-                NetworkImageView imageView = (NetworkImageView)convertView.findViewById(R.id.avatar);
-                imageView.setImageUrl(noteBlock.getNoteImageUrl(), WordPress.imageLoader);
-                TextView textView = (TextView)convertView.findViewById(R.id.name);
-                textView.setText(noteBlock.getNoteText());
-            }
-
-
-            return convertView;
+            return noteBlock.configureView(convertView);
         }
     }
 
