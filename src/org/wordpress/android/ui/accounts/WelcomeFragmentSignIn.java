@@ -201,7 +201,10 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         @Override
         public void onClick(View v) {
             Intent newAccountIntent = new Intent(getActivity(), NewAccountActivity.class);
-            startActivityForResult(newAccountIntent, WelcomeActivity.CREATE_ACCOUNT_REQUEST);
+            Activity activity = getActivity();
+            if (activity != null) {
+                activity.startActivityForResult(newAccountIntent, WelcomeActivity.CREATE_ACCOUNT_REQUEST);
+            }
         }
     };
 
@@ -452,8 +455,15 @@ public class WelcomeFragmentSignIn extends NewAccountAbstractPageFragment implem
         protected List doInBackground(Void... args) {
             List userBlogList = mSetupBlog.getBlogList();
             mErrorMsgId = mSetupBlog.getErrorMsgId();
+            if (mErrorMsgId != 0) {
+                return null;
+            }
             if (userBlogList != null) {
                 mSetupBlog.addBlogs(userBlogList);
+            }
+            mErrorMsgId = mSetupBlog.getErrorMsgId();
+            if (mErrorMsgId != 0) {
+                return null;
             }
             return userBlogList;
         }

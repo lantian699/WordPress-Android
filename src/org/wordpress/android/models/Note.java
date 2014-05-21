@@ -4,8 +4,6 @@
 package org.wordpress.android.models;
 
 import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,6 +17,7 @@ import org.wordpress.android.ui.notifications.NotificationUtils;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.AppLog.T;
 import org.wordpress.android.util.DateTimeUtils;
+import org.wordpress.android.util.HtmlUtils;
 import org.wordpress.android.util.JSONUtil;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class Note extends Syncable {
         static public final String NAME = "note";
         static public final String TIMESTAMP_INDEX = "timestamp";
 
-        private static Indexer<Note> sTimestampIndexer = new Indexer<Note>() {
+        private static final Indexer<Note> sTimestampIndexer = new Indexer<Note>() {
 
             @Override
             public List<Index> index(Note note) {
@@ -73,14 +72,17 @@ public class Note extends Syncable {
     }
 
 
-    protected static final String TAG = "NoteModel";
+    private static final String TAG = "NoteModel";
 
-    protected static final String NOTE_UNKNOWN_TYPE = "unknown";
-    public static final String NOTE_COMMENT_TYPE = "comment";
+    // Maximum character length for a comment preview
+    static private final int MAX_COMMENT_PREVIEW_LENGTH = 200;
+
+    private static final String NOTE_UNKNOWN_TYPE = "unknown";
+    private static final String NOTE_COMMENT_TYPE = "comment";
     public static final String NOTE_COMMENT_LIKE_TYPE = "comment_like";
     public static final String NOTE_LIKE_TYPE = "like";
-    public static final String NOTE_MATCHER_TYPE = "automattcher";
-    public static final String NOTE_ACHIEVEMENT_TYPE = "achievement";
+    private static final String NOTE_MATCHER_TYPE = "automattcher";
+    private static final String NOTE_ACHIEVEMENT_TYPE = "achievement";
 
     // Notes have different types of "templates" for displaying differently
     // this is not a canonical list but covers all the types currently in use
@@ -103,7 +105,6 @@ public class Note extends Syncable {
 
     private Map<String, JSONObject> mActions;
     private JSONObject mNoteJSON;
-    private SpannableStringBuilder mComment = new SpannableStringBuilder();
 
     private int mBlogId;
     private int mPostId;
@@ -200,16 +201,16 @@ public class Note extends Syncable {
      * Removes HTML and cleans up newlines and whitespace
      */
     public String getCommentPreview() {
-        if (mCommentPreview == null)
-            mCommentPreview = getCommentBody().toString().replaceAll("\uFFFC", "").replace("\n", " ").replaceAll("[\\s]{2,}", " ").trim();
-        return mCommentPreview;
-    }
+        if (mCommentPreview == null) {
+            mCommentPreview = HtmlUtils.fastStripHtml(getCommentText());
 
-    /**
-     * Gets the comment's text with getCommentText() and sends it through HTML.fromHTML
-     */
-    Spanned getCommentBody() {
-        return mComment;
+            // Trim down the comment preview if the comment text is too large.
+            if (mCommentPreview.length() > MAX_COMMENT_PREVIEW_LENGTH) {
+                mCommentPreview = mCommentPreview.substring(0, MAX_COMMENT_PREVIEW_LENGTH - 1);
+            }
+
+        }
+        return mCommentPreview;
     }
 
     /**
@@ -227,6 +228,7 @@ public class Note extends Syncable {
         return !isRead();
     }
 
+
     Boolean isRead() {
         return queryJSON("read", 0) == 1;
     }
@@ -240,6 +242,7 @@ public class Note extends Syncable {
         }
         save();
     }
+
 
     public Reply buildReply(String content){
         JSONObject replyAction = getActions().get(ACTION_KEY_REPLY);
@@ -317,13 +320,12 @@ public class Note extends Syncable {
     }
 
 
-    protected void updateJSON(JSONObject json) {
+    private void updateJSON(JSONObject json) {
 
         mNoteJSON = json;
 
         // clear out the preloaded content
         mTimestamp = 0;
-        mComment = null;
         mCommentPreview = null;
         mSubject = null;
         mIconUrl = null;
@@ -381,6 +383,7 @@ public class Note extends Syncable {
         /*if (isCommentType()) {
             // pre-load the comment HTML for being displayed. Cleans up emoticons.
             mComment = HtmlUtils.fromHtml(getCommentText());
+
             // pre-load the preview text
             getCommentPreview();
         }

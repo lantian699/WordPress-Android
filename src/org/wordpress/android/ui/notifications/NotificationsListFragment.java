@@ -1,15 +1,13 @@
 package org.wordpress.android.ui.notifications;
 
 import android.app.ListFragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.wordpress.android.R;
 import org.wordpress.android.models.Note;
+import org.wordpress.android.ui.PullToRefreshHelper;
 import org.wordpress.android.util.SimperiumUtils;
 
 import java.io.IOException;
@@ -26,7 +25,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+
 public class NotificationsListFragment extends ListFragment implements Bucket.Listener<Note> {
+    private PullToRefreshHelper mFauxPullToRefreshHelper;
     private TestNotesAdapter mNotesAdapter;
     private OnNoteClickListener mNoteClickListener;
     private boolean mShouldLoadFirstNote;
@@ -82,11 +84,18 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initPullToRefreshHelper();
+        mFauxPullToRefreshHelper.registerReceiver(getActivity());
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         refreshNotes();
 
-        registerReceiver();
         // start listening to bucket change events
         //mBucket.addListener(this);
     }
@@ -96,7 +105,6 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
         // unregister the listener and close the cursor
         //mBucket.removeListener(this);
 
-        unregisterReceiver();
         super.onPause();
     }
 
@@ -104,7 +112,39 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
     public void onDestroy() {
         //mNotesAdapter.closeCursor();
 
-        super.onDestroy();
+        mFauxPullToRefreshHelper.unregisterReceiver(getActivity());
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        boolean isRefreshing = mFauxPullToRefreshHelper.isRefreshing();
+        super.onConfigurationChanged(newConfig);
+        // Pull to refresh layout is destroyed onDetachedFromWindow,
+        // so we have to re-init the layout, via the helper here
+        initPullToRefreshHelper();
+        mFauxPullToRefreshHelper.setRefreshing(isRefreshing);
+    }
+
+    private void initPullToRefreshHelper() {
+        mFauxPullToRefreshHelper = new PullToRefreshHelper(
+                getActivity(),
+                (PullToRefreshLayout) getActivity().findViewById(R.id.ptr_layout),
+                new PullToRefreshHelper.RefreshListener() {
+                    @Override
+                    public void onRefreshStarted(View view) {
+                        // Show a fake refresh animation for a few seconds
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (hasActivity()) {
+                                    mFauxPullToRefreshHelper.setRefreshing(false);
+                                }
+                            }
+                        }, 2000);
+                    }
+                }, LinearLayout.class
+        );
     }
 
     @Override
@@ -123,7 +163,7 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
     protected void updateLastSeenTime() {
        /* // set the timestamp to now
         try {
-            if (mNotesAdapter != null && mNotesAdapter.getCount() > 0) {
+            if (mNotesAdapter != null && mNotesAdapter.getCount() > 0 && SimperiumUtils.getMetaBucket() != null) {
                 Note newestNote = mNotesAdapter.getNote(0);
                 BucketObject meta = SimperiumUtils.getMetaBucket().get("meta");
                 meta.setProperty("last_seen", newestNote.getTimestamp());
@@ -196,45 +236,6 @@ public class NotificationsListFragment extends ListFragment implements Bucket.Li
     private boolean hasActivity() {
         return getActivity() != null;
     }
-
-
-    /**
-     * Broadcast listener for simperium sign in
-     */
-    private void registerReceiver() {
-        if (!hasActivity())
-            return;
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(SimperiumUtils.BROADCAST_ACTION_SIMPERIUM_SIGNED_IN);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
-    }
-
-    private void unregisterReceiver() {
-        if (!hasActivity())
-            return;
-
-        try {
-            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
-        } catch (IllegalArgumentException e) {
-            // exception occurs if receiver already unregistered (safe to ignore)
-        }
-    }
-
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent == null || intent.getAction() == null || !hasActivity())
-                return;
-
-            if (intent.getAction().equals(SimperiumUtils.BROADCAST_ACTION_SIMPERIUM_SIGNED_IN)) {
-                // Get the new bucket instance and start listening again
-                mBucket.removeListener(NotificationsListFragment.this);
-                mBucket = SimperiumUtils.getNotesBucket();
-                mBucket.addListener(NotificationsListFragment.this);
-            }
-        }
-    };
 
     // FOR NEW MODEL TESTING, REMOVE L8R!!!
     public String loadJSONFromAsset() {
