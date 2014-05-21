@@ -33,6 +33,12 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
     public NotificationsDetailListFragment() {
     }
 
+    public static NotificationsDetailListFragment newInstance(final Note note) {
+        NotificationsDetailListFragment fragment = new NotificationsDetailListFragment();
+        fragment.setNote(note);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.notifications_detail_list, container, false);

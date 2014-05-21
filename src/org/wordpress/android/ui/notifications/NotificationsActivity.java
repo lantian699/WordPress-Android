@@ -229,33 +229,26 @@ public class NotificationsActivity extends WPActionBarActivity
     /**
      * Tries to pick the correct fragment detail type for a given note
      */
-    /*private Fragment getDetailFragmentForNote(Note note){
+    private Fragment getDetailFragmentForNote(Note note) {
         if (note == null)
             return null;
 
         if (note.isCommentType()) {
             // show comment detail for comment notifications
             return CommentDetailFragment.newInstance(note);
-        } else if (note.isCommentLikeType()) {
-            return new NoteCommentLikeFragment();
         } else if (note.isAutomattcherType()) {
             // show reader post detail for automattchers about posts - note that comment
             // automattchers are handled by note.isCommentType() above
             boolean isPost = (note.getBlogId() !=0 && note.getPostId() != 0 && note.getCommentId() == 0);
             if (isPost) {
                 return ReaderPostDetailFragment.newInstance(note.getBlogId(), note.getPostId());
-            } else {
-                // right now we'll never get here
-                return new NoteMatcherFragment();
             }
-        } else if (note.isSingleLineListTemplate()) {
-            return new NoteSingleLineListFragment();
-        } else if (note.isBigBadgeTemplate()) {
-            return new BigBadgeFragment();
+        } else {
+            return NotificationsDetailListFragment.newInstance(note);
         }
 
         return null;
-    }*/
+    }
 
     /**
      *  Open a note fragment based on the type of note
@@ -281,11 +274,7 @@ public class NotificationsActivity extends WPActionBarActivity
         }
 
         // create detail fragment for this note type
-        NotificationsDetailListFragment detailFragment = new NotificationsDetailListFragment();
-        if (detailFragment == null) {
-            AppLog.d(T.NOTIFS, String.format("No fragment found for %s", note.toJSONObject()));
-            return;
-        }
+        Fragment detailFragment = getDetailFragmentForNote(note);
 
         // set the note if this is a NotificationFragment (ReaderPostDetailFragment is the only
         // fragment used here that is not a NotificationFragment)

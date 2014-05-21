@@ -79,16 +79,7 @@ public class Note extends Syncable {
 
     private static final String NOTE_UNKNOWN_TYPE = "unknown";
     private static final String NOTE_COMMENT_TYPE = "comment";
-    public static final String NOTE_COMMENT_LIKE_TYPE = "comment_like";
-    public static final String NOTE_LIKE_TYPE = "like";
     private static final String NOTE_MATCHER_TYPE = "automattcher";
-    private static final String NOTE_ACHIEVEMENT_TYPE = "achievement";
-
-    // Notes have different types of "templates" for displaying differently
-    // this is not a canonical list but covers all the types currently in use
-    private static final String SINGLE_LINE_LIST_TEMPLATE = "single-line-list";
-    private static final String MULTI_LINE_LIST_TEMPLATE = "multi-line-list";
-    private static final String BIG_BADGE_TEMPLATE = "big-badge";
 
     // JSON action keys
     private static final String ACTION_KEY_REPLY = "replyto-comment";
@@ -153,9 +144,6 @@ public class Note extends Syncable {
     public String getType() {
         if (mNoteType == null) {
             mNoteType = queryJSON("type", NOTE_UNKNOWN_TYPE);
-            if (mNoteType.contains(NOTE_ACHIEVEMENT_TYPE)) {
-                mNoteType = NOTE_ACHIEVEMENT_TYPE;
-            }
         }
 
         return mNoteType;
@@ -167,10 +155,6 @@ public class Note extends Syncable {
 
     public Boolean isCommentType() {
         return isType(NOTE_COMMENT_TYPE);
-    }
-
-    public Boolean isCommentLikeType() {
-        return isType(NOTE_COMMENT_LIKE_TYPE);
     }
 
     public Boolean isAutomattcherType() {
@@ -281,22 +265,6 @@ public class Note extends Syncable {
     // returns character code for notification font
     public String getNoticonCharacter() {
         return queryJSON("noticon", "");
-    }
-
-    String getTemplate() {
-        return queryJSON("body.template", "");
-    }
-
-    public Boolean isMultiLineListTemplate() {
-        return getTemplate().equals(MULTI_LINE_LIST_TEMPLATE);
-    }
-
-    public Boolean isSingleLineListTemplate() {
-        return getTemplate().equals(SINGLE_LINE_LIST_TEMPLATE);
-    }
-
-    public Boolean isBigBadgeTemplate() {
-        return getTemplate().equals(BIG_BADGE_TEMPLATE);
     }
 
     Map<String, JSONObject> getActions() {
