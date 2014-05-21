@@ -1,9 +1,7 @@
 package org.wordpress.android.ui.notifications;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +10,11 @@ import android.widget.TextView;
 
 import org.wordpress.android.R;
 import org.wordpress.android.models.Note;
-import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.PhotonUtils;
 import org.wordpress.android.widgets.NoticonTextView;
 import org.wordpress.android.widgets.WPNetworkImageView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 class TestNotesAdapter extends ArrayAdapter {
@@ -66,35 +62,6 @@ class TestNotesAdapter extends ArrayAdapter {
         noteViewHolder.unreadIndicator.setVisibility(note.isUnread() ? View.VISIBLE : View.INVISIBLE);
 
         return convertView;
-    }
-
-    // HashMap of drawables for note types
-    private HashMap<String, Drawable> mNoteIcons = new HashMap<String, Drawable>();
-
-    private Drawable getDrawableForType(String noteType) {
-        if (mContext == null || noteType == null)
-            return null;
-
-        // use like icon for comment likes
-        if (noteType.equals(Note.NOTE_COMMENT_LIKE_TYPE))
-            noteType = Note.NOTE_LIKE_TYPE;
-
-        Drawable icon = mNoteIcons.get(noteType);
-        if (icon != null)
-            return icon;
-
-        int imageId = mContext.getResources().getIdentifier("note_icon_" + noteType, "drawable", mContext.getPackageName());
-        if (imageId == 0) {
-            Log.w(AppLog.TAG, "unknown note type - " + noteType);
-            return null;
-        }
-
-        icon = mContext.getResources().getDrawable(imageId);
-        if (icon == null)
-            return null;
-
-        mNoteIcons.put(noteType, icon);
-        return icon;
     }
 
     private static class NoteViewHolder {

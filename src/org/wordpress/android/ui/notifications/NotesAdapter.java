@@ -1,4 +1,4 @@
-package org.wordpress.android.ui.notifications;
+/*package org.wordpress.android.ui.notifications;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -143,3 +143,4 @@ class NotesAdapter extends CursorAdapter {
         }
     }
 }
+*/
