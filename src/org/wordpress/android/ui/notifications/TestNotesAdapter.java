@@ -54,6 +54,11 @@ class TestNotesAdapter extends ArrayAdapter {
 
         if (!TextUtils.isEmpty(note.getNoticonCharacter())) {
             noteViewHolder.noteIcon.setText(note.getNoticonCharacter());
+            if (note.isUnread()) {
+                noteViewHolder.noteIcon.setBackgroundResource(R.drawable.shape_oval_blue);
+            } else {
+                noteViewHolder.noteIcon.setBackgroundResource(R.drawable.shape_oval_grey);
+            }
             noteViewHolder.noteIcon.setVisibility(View.VISIBLE);
         } else {
             noteViewHolder.noteIcon.setVisibility(View.GONE);

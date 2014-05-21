@@ -228,6 +228,7 @@ public class NotificationsActivity extends WPActionBarActivity
 
     /**
      * Tries to pick the correct fragment detail type for a given note
+     * Defaults to NotificationDetailListFragment
      */
     private Fragment getDetailFragmentForNote(Note note) {
         if (note == null)
@@ -242,12 +243,12 @@ public class NotificationsActivity extends WPActionBarActivity
             boolean isPost = (note.getBlogId() !=0 && note.getPostId() != 0 && note.getCommentId() == 0);
             if (isPost) {
                 return ReaderPostDetailFragment.newInstance(note.getBlogId(), note.getPostId());
+            } else {
+                return NotificationsDetailListFragment.newInstance(note);
             }
         } else {
             return NotificationsDetailListFragment.newInstance(note);
         }
-
-        return null;
     }
 
     /**
@@ -275,12 +276,6 @@ public class NotificationsActivity extends WPActionBarActivity
 
         // create detail fragment for this note type
         Fragment detailFragment = getDetailFragmentForNote(note);
-
-        // set the note if this is a NotificationFragment (ReaderPostDetailFragment is the only
-        // fragment used here that is not a NotificationFragment)
-        if (detailFragment instanceof NotificationFragment) {
-            ((NotificationFragment) detailFragment).setNote(note);
-        }
 
         // swap the fragment
         FragmentTransaction ft = fm.beginTransaction();
