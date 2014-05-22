@@ -2,6 +2,7 @@ package org.wordpress.android.ui.notifications.blocks;
 
 import android.text.Spannable;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -77,6 +78,7 @@ public class NoteBlock {
 
         BasicNoteBlockHolder(View view) {
             mTextView = (WPTextView) view.findViewById(R.id.note_text);
+            mTextView.setMovementMethod(new LinkMovementMethod());
             mImageView = (NetworkImageView) view.findViewById(R.id.note_image);
         }
     }
