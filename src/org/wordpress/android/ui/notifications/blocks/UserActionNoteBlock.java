@@ -16,7 +16,7 @@ import org.wordpress.android.widgets.WPTextView;
 public class UserActionNoteBlock extends NoteBlock {
 
     public UserActionNoteBlock(JSONObject noteObject) {
-        super(noteObject);
+        super(noteObject, null);
     }
 
     @Override

@@ -19,11 +19,16 @@ import org.wordpress.android.widgets.WPTextView;
  */
 public class NoteBlock {
 
-
     private JSONObject mNoteData;
+    private OnNoteBlockTextClickListener mOnNoteBlockTextClickListener;
 
-    public NoteBlock(JSONObject noteObject) {
+    public interface OnNoteBlockTextClickListener {
+        public void onNoteBlockTextClicked();
+    }
+
+    public NoteBlock(JSONObject noteObject, OnNoteBlockTextClickListener onNoteBlockTextClickListener) {
         mNoteData = noteObject;
+        mOnNoteBlockTextClickListener = onNoteBlockTextClickListener;
     }
 
     public BlockType getBlockType() {
@@ -31,7 +36,7 @@ public class NoteBlock {
     }
 
     public Spannable getNoteText() {
-        return NotificationUtils.getSpannableTextFromIndeces(mNoteData);
+        return NotificationUtils.getSpannableTextFromIndices(mNoteData, true, mOnNoteBlockTextClickListener);
     }
 
     public String getNoteImageUrl() {

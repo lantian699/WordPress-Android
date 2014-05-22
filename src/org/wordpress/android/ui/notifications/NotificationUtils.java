@@ -9,7 +9,9 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
+import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.google.android.gcm.GCMRegistrar;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.wordpress.android.BuildConfig;
 import org.wordpress.android.WordPress;
+import org.wordpress.android.ui.notifications.blocks.NoteBlock;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.AppLog.T;
 import org.wordpress.android.util.DeviceUtils;
@@ -208,7 +211,7 @@ public class NotificationUtils {
         return "org.wordpress.android.playstore";
     }
 
-    public static Spannable getSpannableTextFromIndeces(JSONObject subject) {
+    public static Spannable getSpannableTextFromIndices(JSONObject subject, boolean shouldLinkify, final NoteBlock.OnNoteBlockTextClickListener onNoteBlockTextClickListener) {
 
         String text = subject.optString("text", "");
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
@@ -222,10 +225,30 @@ public class NotificationUtils {
                 JSONArray indicesArray = urlIndex.getJSONArray("indices");
                 if (type.equals("post") || type.equals("site")) {
                     // bold span
+                    if (shouldLinkify && onNoteBlockTextClickListener != null) {
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                onNoteBlockTextClickListener.onNoteBlockTextClicked();
+                            }
+                        };
+                        spannableStringBuilder.setSpan(clickableSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    }
+
                     StyleSpan boldStyleSpan = new StyleSpan(Typeface.ITALIC);
                     spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 } else if (type.equals("user")) {
                     // em span
+                    if (shouldLinkify && onNoteBlockTextClickListener != null) {
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View widget) {
+                                onNoteBlockTextClickListener.onNoteBlockTextClicked();
+                            }
+                        };
+                        spannableStringBuilder.setSpan(clickableSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    }
+
                     StyleSpan boldStyleSpan = new StyleSpan(Typeface.BOLD);
                     spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 }

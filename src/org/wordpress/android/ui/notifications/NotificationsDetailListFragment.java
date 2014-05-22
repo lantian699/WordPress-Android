@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +79,7 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
                     if (noteObject.has("text") && noteObject.has("media") && noteObject.has("meta")) {
                         noteBlock = new UserActionNoteBlock(noteObject);
                     } else {
-                        noteBlock = new NoteBlock(noteObject);
+                        noteBlock = new NoteBlock(noteObject, mOnNoteBlockTextClickListener);
                     }
 
                     mNoteBlockArray.add(noteBlock);
@@ -132,5 +133,12 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
     private boolean hasActivity() {
         return getActivity() != null;
     }
+
+    private NoteBlock.OnNoteBlockTextClickListener mOnNoteBlockTextClickListener = new NoteBlock.OnNoteBlockTextClickListener() {
+        @Override
+        public void onNoteBlockTextClicked() {
+            Toast.makeText(getActivity(), "WHEEE", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 }
