@@ -9,7 +9,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
 
@@ -25,6 +24,7 @@ import org.json.JSONObject;
 import org.wordpress.android.BuildConfig;
 import org.wordpress.android.WordPress;
 import org.wordpress.android.ui.notifications.blocks.NoteBlock;
+import org.wordpress.android.ui.notifications.blocks.NoteBlockClickableSpan;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.AppLog.T;
 import org.wordpress.android.util.DeviceUtils;
@@ -220,40 +220,25 @@ public class NotificationUtils {
             JSONArray idsArray = subject.getJSONArray("ids");
 
             for (int i=0; i < idsArray.length(); i++) {
-                JSONObject urlIndex = (JSONObject) idsArray.get(i);
-                String type = urlIndex.optString("type", "");
-                JSONArray indicesArray = urlIndex.getJSONArray("indices");
-                if (type.equals("post") || type.equals("site")) {
-                    // bold span
-                    if (shouldLinkify && onNoteBlockTextClickListener != null) {
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(View widget) {
-                                onNoteBlockTextClickListener.onNoteBlockTextClicked();
-                            }
-                        };
-                        spannableStringBuilder.setSpan(clickableSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                JSONObject idObject = (JSONObject) idsArray.get(i);
+                NoteBlockClickableSpan clickableSpan = new NoteBlockClickableSpan(idObject) {
+                    @Override
+                    public void onClick(View widget) {
+                        onNoteBlockTextClickListener.onNoteBlockTextClicked(this);
                     }
+                };
+                int[] indices = clickableSpan.getIndices();
+                if (indices.length == 2 && indices[0] <= spannableStringBuilder.length() &&
+                        indices[1] <= spannableStringBuilder.length()) {
+                    spannableStringBuilder.setSpan(clickableSpan, indices[0], indices[1], Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
-                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.ITALIC);
-                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                } else if (type.equals("user")) {
-                    // em span
-                    if (shouldLinkify && onNoteBlockTextClickListener != null) {
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(View widget) {
-                                onNoteBlockTextClickListener.onNoteBlockTextClicked();
-                            }
-                        };
-                        spannableStringBuilder.setSpan(clickableSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    // Add additional styling if the id wants it
+                    if (clickableSpan.getSpanStyle() != Typeface.NORMAL) {
+                        StyleSpan styleSpan = new StyleSpan(clickableSpan.getSpanStyle());
+                        spannableStringBuilder.setSpan(styleSpan, indices[0], indices[1], Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     }
-
-                    StyleSpan boldStyleSpan = new StyleSpan(Typeface.BOLD);
-                    spannableStringBuilder.setSpan(boldStyleSpan, indicesArray.getInt(0), indicesArray.getInt(1), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

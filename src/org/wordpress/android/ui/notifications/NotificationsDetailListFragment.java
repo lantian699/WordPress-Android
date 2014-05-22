@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import org.wordpress.android.R;
 import org.wordpress.android.models.Note;
 import org.wordpress.android.ui.notifications.blocks.NoteBlock;
+import org.wordpress.android.ui.notifications.blocks.NoteBlockClickableSpan;
 import org.wordpress.android.ui.notifications.blocks.UserActionNoteBlock;
 import org.wordpress.android.widgets.NoticonTextView;
 import org.wordpress.android.widgets.WPTextView;
@@ -136,8 +137,8 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
 
     private NoteBlock.OnNoteBlockTextClickListener mOnNoteBlockTextClickListener = new NoteBlock.OnNoteBlockTextClickListener() {
         @Override
-        public void onNoteBlockTextClicked() {
-            Toast.makeText(getActivity(), "WHEEE", Toast.LENGTH_SHORT).show();
+        public void onNoteBlockTextClicked(NoteBlockClickableSpan clickedSpan) {
+            Toast.makeText(getActivity(), "Clicked: " + clickedSpan.getId(), Toast.LENGTH_SHORT).show();
         }
     };
 
