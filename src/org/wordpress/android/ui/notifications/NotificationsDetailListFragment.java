@@ -119,6 +119,7 @@ public class NotificationsDetailListFragment extends ListFragment implements Not
         public View getView(int position, View convertView, ViewGroup parent) {
             NoteBlock noteBlock = mNoteBlockList.get(position);
 
+            // Check the tag for this recycled view, if it matches we can resuse it
             if (convertView == null || noteBlock.getBlockType() != convertView.getTag(R.id.note_block_tag_id)) {
                 convertView = mLayoutInflater.inflate(noteBlock.getLayoutResourceId(), parent, false);
                 convertView.setTag(noteBlock.getViewHolder(convertView));
