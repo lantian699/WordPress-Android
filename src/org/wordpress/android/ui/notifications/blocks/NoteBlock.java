@@ -36,6 +36,10 @@ public class NoteBlock {
         return BlockType.BASIC;
     }
 
+    public JSONObject getNoteData() {
+        return mNoteData;
+    }
+
     public Spannable getNoteText() {
         return NotificationUtils.getSpannableTextFromIndices(mNoteData, true, mOnNoteBlockTextClickListener);
     }

@@ -4,9 +4,14 @@ import android.view.View;
 
 import com.android.volley.toolbox.NetworkImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.wordpress.android.R;
 import org.wordpress.android.WordPress;
+import org.wordpress.android.util.AppLog;
+import org.wordpress.android.util.StringUtils;
+import org.wordpress.android.util.UrlUtils;
 import org.wordpress.android.widgets.WPTextView;
 
 /**
@@ -33,7 +38,14 @@ public class UserActionNoteBlock extends NoteBlock {
     public View configureView(View view) {
         UserActionNoteBlockHolder noteBlockHolder = (UserActionNoteBlockHolder)view.getTag();
         noteBlockHolder.mNameTextView.setText(getNoteText());
+        noteBlockHolder.mUrlTextView.setText(StringUtils.notNullStr(getUserUrl()));
         noteBlockHolder.mAvatarImageView.setImageUrl(getNoteImageUrl(), WordPress.imageLoader);
+
+        if (hasAction()) {
+            noteBlockHolder.mActionButton.setVisibility(View.VISIBLE);
+        } else {
+            noteBlockHolder.mActionButton.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -55,5 +67,34 @@ public class UserActionNoteBlock extends NoteBlock {
             mActionButton = (WPTextView) view.findViewById(R.id.action_button);
             mAvatarImageView = (NetworkImageView) view.findViewById(R.id.avatar);
         }
+    }
+
+    public String getUserUrl() {
+        if (getNoteData() == null) return null;
+
+        JSONArray idsArray = getNoteData().optJSONArray("ids");
+        if (idsArray != null) {
+            for (int i=0; i < idsArray.length(); i++) {
+                try {
+                    JSONObject idObject = idsArray.getJSONObject(i);
+                    if (idObject.has("url")) {
+                        return UrlUtils.removeUrlScheme(idObject.getString("url"));
+                    }
+                } catch (JSONException e) {
+                    AppLog.i(AppLog.T.NOTIFS, "Unexpected object in notifications ids array.");
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // Show or hide action button
+    private boolean hasAction() {
+        if (getNoteData() == null) {
+            return false;
+        }
+
+        return getNoteData().has("actions");
     }
 }
