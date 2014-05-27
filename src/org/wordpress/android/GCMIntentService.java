@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -23,7 +24,9 @@ import org.wordpress.android.ui.posts.PostsActivity;
 import org.wordpress.android.ui.prefs.UserPrefs;
 import org.wordpress.android.util.AppLog;
 import org.wordpress.android.util.AppLog.T;
+import org.wordpress.android.util.DisplayUtils;
 import org.wordpress.android.util.ImageHelper;
+import org.wordpress.android.util.PhotonUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -55,8 +58,9 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onMessage(Context context, Intent intent) {
         AppLog.v(T.NOTIFS, "Received Message");
 
-        if (!WordPress.hasValidWPComCredentials(context))
+        if (!WordPress.hasValidWPComCredentials(context)) {
             return;
+        }
 
         Bundle extras = intent.getExtras();
 
@@ -83,8 +87,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         }
 
         String title = StringEscapeUtils.unescapeHtml(extras.getString("title"));
-        if (title == null)
+        if (TextUtils.isEmpty(title)) {
             title = "WordPress";
+        }
         String message = StringEscapeUtils.unescapeHtml(extras.getString("msg"));
         String note_id = extras.getString("note_id");
 
@@ -114,8 +119,9 @@ public class GCMIntentService extends GCMBaseIntentService {
         mPreviousNoteTime = thisTime;
 
         if (note_id != null) {
-            if (!activeNotificationsMap.containsKey(note_id))
+            if (!activeNotificationsMap.containsKey(note_id)) {
                 activeNotificationsMap.put(note_id, extras);
+            }
         }
 
         String iconURL = extras.getString("icon");
@@ -126,18 +132,14 @@ public class GCMIntentService extends GCMBaseIntentService {
             } catch (UnsupportedEncodingException e) {
                 AppLog.e(T.NOTIFS, e);
             }
-            float screenDensity = getResources().getDisplayMetrics().densityDpi;
-            int size = Math.round(64 * (screenDensity / 160));
-            String resizedURL = iconURL.replaceAll("(?<=[?&;])s=[0-9]*", "s=" + size);
+            String resizedURL = PhotonUtils.fixAvatar(iconURL, DisplayUtils.dpToPx(context, 64));
             largeIconBitmap = ImageHelper.downloadBitmap(resizedURL);
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean sound, vibrate, light;
-
-        sound = prefs.getBoolean("wp_pref_notification_sound", false);
-        vibrate = prefs.getBoolean("wp_pref_notification_vibrate", false);
-        light = prefs.getBoolean("wp_pref_notification_light", false);
+        boolean sound = prefs.getBoolean("wp_pref_notification_sound", false);
+        boolean vibrate = prefs.getBoolean("wp_pref_notification_vibrate", false);
+        boolean light = prefs.getBoolean("wp_pref_notification_light", false);
 
         NotificationCompat.Builder mBuilder;
 
@@ -150,8 +152,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
         if (activeNotificationsMap.size() <= 1) {
             mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.notification_icon).setContentTitle(title)
-                                                     .setContentText(message).setTicker(message).setAutoCancel(true)
-                                                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+                    .setContentText(message).setTicker(message).setAutoCancel(true)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message));
 
             if (note_id != null) {
                 resultIntent.putExtra(NotificationsActivity.NOTE_ID_EXTRA, note_id);
@@ -185,10 +187,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 
             int noteCtr = 1;
             for (Bundle wpPN : activeNotificationsMap.values()) {
-                if (noteCtr > 5) // InboxStyle notification is limited to 5 lines
+                if (noteCtr > 5) {
+                    // InboxStyle notification is limited to 5 lines
                     break;
-                if (wpPN.getString("msg") == null)
+                }
+                if (wpPN.getString("msg") == null) {
                     continue;
+                }
+
                 if (wpPN.getString("type") != null && wpPN.getString("type").equals("c")) {
                     String pnTitle = StringEscapeUtils.unescapeHtml((wpPN.getString("title")));
                     String pnMessage = StringEscapeUtils.unescapeHtml((wpPN.getString("msg")));
@@ -200,32 +206,33 @@ public class GCMIntentService extends GCMBaseIntentService {
                 noteCtr++;
             }
 
-            if (activeNotificationsMap.size() > 5)
-                inboxStyle.setSummaryText(String.format(getString(R.string.more_notifications),
-                        activeNotificationsMap.size() - 5));
+            if (activeNotificationsMap.size() > 5) {
+                inboxStyle.setSummaryText(String.format(getString(R.string.more_notifications), activeNotificationsMap.size() - 5));
+            }
 
-            String subject = String.format(getString(R.string.new_notifications),
-                    activeNotificationsMap.size());
+            String subject = String.format(getString(R.string.new_notifications), activeNotificationsMap.size());
 
             mBuilder = new NotificationCompat.Builder(this)
-                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.notification_multi))
-                            .setSmallIcon(R.drawable.notification_icon)
-                            .setContentTitle("WordPress")
-                            .setContentText(subject)
-                            .setTicker(message)
-                            .setAutoCancel(true)
-                            .setStyle(inboxStyle);
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.notification_multi))
+                    .setSmallIcon(R.drawable.notification_icon)
+                    .setContentTitle("WordPress")
+                    .setContentText(subject)
+                    .setTicker(message)
+                    .setAutoCancel(true)
+                    .setStyle(inboxStyle);
         }
 
-        if (sound)
-            mBuilder.setSound(Uri.parse("android.resource://" + getPackageName() + "/"
-                    + R.raw.notification));
-        if (vibrate)
+        if (sound) {
+            mBuilder.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notification));
+        }
+        if (vibrate) {
             mBuilder.setVibrate(new long[]{
                     500, 500, 500
             });
-        if (light)
+        }
+        if (light) {
             mBuilder.setLights(0xff0000ff, 1000, 5000);
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_UPDATE_CURRENT);
