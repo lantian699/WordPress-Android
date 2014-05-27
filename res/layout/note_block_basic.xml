@@ -11,15 +11,16 @@
 
     <com.android.volley.toolbox.NetworkImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/note_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal" />
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="fitCenter"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal" />
 
     <org.wordpress.android.widgets.WPTextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/note_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
         android:textSize="@dimen/text_sz_large"
         android:textColor="@color/notifications_blue_dark" />
 </LinearLayout>
