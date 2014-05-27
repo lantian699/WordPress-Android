@@ -211,7 +211,8 @@ public class NotificationUtils {
         return "org.wordpress.android.playstore";
     }
 
-    public static Spannable getSpannableTextFromIndices(JSONObject subject, boolean shouldLinkify, final NoteBlock.OnNoteBlockTextClickListener onNoteBlockTextClickListener) {
+    public static Spannable getSpannableTextFromIndices(JSONObject subject, boolean shouldLinkify,
+                                                        final NoteBlock.OnNoteBlockTextClickListener onNoteBlockTextClickListener) {
 
         String text = subject.optString("text", "");
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);

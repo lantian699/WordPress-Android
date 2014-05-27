@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import org.wordpress.android.R;
 import org.wordpress.android.models.Note;
+import org.wordpress.android.util.DisplayUtils;
 import org.wordpress.android.util.PhotonUtils;
 import org.wordpress.android.widgets.NoticonTextView;
 import org.wordpress.android.widgets.WPNetworkImageView;
@@ -19,14 +20,15 @@ import java.util.List;
 
 class TestNotesAdapter extends ArrayAdapter {
 
-    int mAvatarSz;
-    Context mContext;
-    ArrayList<Note> mNotesList;
+    private int mAvatarSz;
+    private Context mContext;
+    private ArrayList<Note> mNotesList;
 
     public TestNotesAdapter(Context context, int resource, List<Note> objects) {
         super(context, resource, objects);
         mContext = context;
         mNotesList = (ArrayList<Note>)objects;
+        mAvatarSz = DisplayUtils.dpToPx(context, 52);
     }
 
     @Override

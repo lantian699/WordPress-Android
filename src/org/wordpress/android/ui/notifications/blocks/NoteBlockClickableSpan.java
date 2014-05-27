@@ -1,5 +1,6 @@
 package org.wordpress.android.ui.notifications.blocks;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -19,11 +20,15 @@ public class NoteBlockClickableSpan extends ClickableSpan {
     private NoteBlockIdType mType;
     private String mUrl;
     private int[] mIndices;
+    private boolean mPressed;
+    private int mBackgroundColor;
 
     private JSONObject mBlockData;
 
     public NoteBlockClickableSpan(JSONObject idData) {
         mBlockData = idData;
+        // Same color as notifications_blue in colors.xml
+        mBackgroundColor = Color.parseColor("#90aec2");
         processIdData();
     }
 
@@ -48,8 +53,8 @@ public class NoteBlockClickableSpan extends ClickableSpan {
 
     @Override
     public void updateDrawState(TextPaint textPaint) {
-        // Enforce the original color we want, even for links
-        textPaint.setColor(textPaint.getColor());
+        // Set background color
+        textPaint.bgColor = mPressed ? mBackgroundColor : Color.TRANSPARENT;
         // No underlines
         textPaint.setUnderlineText(false);
     }
@@ -81,5 +86,9 @@ public class NoteBlockClickableSpan extends ClickableSpan {
 
     public long getId() {
         return mId;
+    }
+
+    public void setPressed(boolean isPressed) {
+        this.mPressed = isPressed;
     }
 }
