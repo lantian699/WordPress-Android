@@ -5,9 +5,9 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:1.5.+'
         classpath 'com.github.nrudenko:gradle-android-cq-plugin:0.1+'
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.0.+'
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
     }
 }
 
@@ -40,27 +40,31 @@ android {
         release {
             buildConfigField "String", "APP_PN_KEY", "\"org.wordpress.android.playstore\""
             buildConfigField "String", "STATS_PROVIDER_AUTHORITY", "\"org.wordpress.android.providers.StatsContentProvider\""
+            proguardFile getDefaultProguardFile('proguard-android.txt')
         }
         debug {
             buildConfigField "String", "APP_PN_KEY", "\"org.wordpress.android.debug.build\""
             buildConfigField "String", "STATS_PROVIDER_AUTHORITY", "\"org.wordpress.android.providers.StatsContentProvider\""
+            proguardFile getDefaultProguardFile('proguard-android.txt')
         }
         zbetagroup {
             buildConfigField "String", "APP_PN_KEY", "\"org.wordpress.android.beta.build\""
             buildConfigField "String", "STATS_PROVIDER_AUTHORITY", "\"org.wordpress.android.providers.StatsContentProviderBeta\""
-            packageNameSuffix ".beta"
+            applicationIdSuffix ".beta"
+            proguardFile getDefaultProguardFile('proguard-android.txt')
         }
     }
 
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
-        packageName "org.wordpress.android"
+        applicationId "org.wordpress.android"
         versionName "2.9-beta-3"
         versionCode 113
         minSdkVersion 14
         targetSdkVersion 19
+        multiDexEnabled true
     }
 
     dependencies {
